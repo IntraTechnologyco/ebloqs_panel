@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100;0,200;0,500;0,600;0,700;0,800;1,500;1,600&display=swap');
+
+:root {
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif, 'Archivo';
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  --dark-blue: #170658;
+  --filter-dark-blue: invert(12%) sepia(38%) saturate(4288%) hue-rotate(242deg) brightness(81%) contrast(120%);
+  --filter-withe:invert(100%) sepia(3%) saturate(76%) hue-rotate(129deg) brightness(120%) contrast(100%);
+  --principal-blue: #2504CA;
+  --principal-purple: #8966F0;
+  --light-purple: #EAE4FC;
+  --light-purple2: #F6F4FD;
+  --light-purple3: #F9F9FA;
+  --withe-primary: #FFFFFF;
+  --pharagraph-color: #7E819F;
+
+  background-color: var(--withe-primary);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0 auto;
+}
+
+.title-primary {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 700;
+  font-size: clamp(21px,1.5em, 1.6em);
+  line-height: 28px;
+  color: var(--dark-blue);
+  margin: 10px 0px;
+}
+
+.pharagraph-primary {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1em;
+  line-height: 18px;
+  color: var(--pharagraph-color);
+  margin: 0;
+}
