@@ -12,7 +12,7 @@ async function getCostumer() {
         const list = await response.json();
         allCostumers = list;
         let newListTitle = list.map((e) => {
-            return e['email'][0].toLowerCase() ?? '';
+            return e['email'][0];
         })
         let newListEmails = list.map((e) => {
             return e['email'];
