@@ -1,10 +1,12 @@
 <script>
     export let title;
     export let users = [];
+    
+    export let searchAllTitle;
 </script>
 
 <div class="item-list-cost">
-    <div class="title-item">
+    <div class="title-item" on:click="{searchAllTitle()}">
         <h4>
             {title}
         </h4>
@@ -12,7 +14,7 @@
     <div class="list_user">
         <ul>
             {#each users as use}
-                <li>{use}</li>
+                <li>{use['name'].charAt(0).toUpperCase() + use['name'].slice(1)}</li>
             {/each}
         </ul>
     </div>

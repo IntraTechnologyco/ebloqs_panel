@@ -5,66 +5,28 @@ let listCostumers = writable([]);
 let listFilterCostumers = writable([]);
 let allCostumers;
 
-async function getCostumer() {
-    const response = await constService.getallUsers();
+let isLoading = writable(true);
 
+async function getCostumer() {
+    isLoading.update(va => va = true);
+    const response = await constService.getallUsers();
     if(response.status == 200) {
         const list = await response.json();
-        allCostumers = list;
-        let newListTitle = list.map((e) => {
-            return e['email'][0];
-        })
-        let newListEmails = list.map((e) => {
-            return e['email'];
-        })
-
-
-        let listWithOutDuplicate = newListTitle.sort().filter((value, index) => {
-            return newListTitle.indexOf(value) === index;
-        })
-        const costumersList = listWithOutDuplicate.map((e) => {
-            let data = {
-                title: e,
-                emails: newListEmails.filter((r) => r[0] === e) 
-            }
-            
-            return data;
-        })
-
-        listCostumers.update(n => n = costumersList)
+        listCostumers.update(m => m = list);
+        isLoading.update(va => va = false);
     }
 }
 
 async function filterCostumers(searchText) {
     listFilterCostumers.update(va => va = []);
-    const newFilter = allCostumers.filter((v) =>{
-        var re = v['email'].includes(searchText);
-
-        // console.log(v['email'].localeCompare(searchText))
-        return re;
-        
-        
-    })
-    let newListTitle = newFilter.map((e) => {
-        return e['email'][0].toLowerCase()
-    })
-    let newListEmails = newFilter.map((e) => {
-        return e['email'];
-    })
-
-    let listWithOutDuplicate = newListTitle.sort().filter((value, index) => {
-        return newListTitle.indexOf(value) === index;
-    })
-
-    const costumersFilterList = listWithOutDuplicate.map((e) => {
-        let data = {
-            title: e,
-            emails: newListEmails.filter((r) => r[0] === e) 
-        }
-        
-        return data;
-    })
-    listFilterCostumers.update(va => va = costumersFilterList);
+    isLoading.update(va => va = true);
+    const response = await constService.search(searchText);
+    
+    if(response.status == 201) {
+        const listConstumersFilters = await response.json();
+        listFilterCostumers.update(va => va = listConstumersFilters);
+        isLoading.update(va => va = false);
+    }
 }
 
 
@@ -74,6 +36,7 @@ function exportCostStore() {
         listCostumers,
         listFilterCostumers,
         filterCostumers,
+        isLoading
     }
 }
 

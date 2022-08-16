@@ -13,10 +13,25 @@ async function getallUsers() {
 }
 
 
+async function search(text) {
+    var response = await fetch(`${baseUrl}/clients/search/${text}`,{ 
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    });
+    
+    return response;
+
+}
+
+
 function exportCostService() {
 
     return {
-        getallUsers
+        getallUsers,
+        search
     }
 }
 

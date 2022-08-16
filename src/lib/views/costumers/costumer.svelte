@@ -12,6 +12,10 @@ import CostumerItemlist from "../home/components/costumer_itemlist.svelte";
 let listCostumersAPI;
 let listCostumersFILTERAPI;
 
+let isLoading = false;
+
+costStore.isLoading.subscribe(n => isLoading = n)
+
 let filteText = '';
 costStore.listCostumers.subscribe(n => {
     listCostumersAPI = n;
@@ -22,10 +26,18 @@ costStore.listFilterCostumers.subscribe(va => {
 });
 
 async function onChangeDetector() {
-    filteText = document.querySelector('input').value;
-    await costStore.filterCostumers(filteText);
+    filteText = document.querySelector('input').value.toLowerCase();
+    if(filteText.length != 0) {
+        await costStore.filterCostumers(filteText);
+    } else {
+        listCostumersFILTERAPI = [];
+    }
 
-    console.log(listCostumersFILTERAPI.length)
+}
+
+async function searchWithTitles(title) {
+    await costStore.filterCostumers(title);
+    document.querySelector('input').value = title;
 }
 
 
@@ -47,22 +59,28 @@ onMount(()=> {
             ></InputSearch>
         </div>
         <div class="panel_list" in:fly='{{ y: 3 , delay: 400 }}'>
-            {#if filteText.length <= 0}
-                {#each listCostumersAPI as api}
-                    <CostumerItemlist
-                        title={api['title'].toUpperCase()}
-                        users={api['emails']}
-                        
-                    />
-                {/each}
+            {#if isLoading}
+                <h4>Cargando clientes</h4>
                 {:else}
-                {#each listCostumersFILTERAPI as api2}
-                    <CostumerItemlist
-                        title={api2['title'].toUpperCase()}
-                        users={api2['emails']}
-                    />
-                {/each}
-            
+                {#if listCostumersFILTERAPI.length == 0}
+                    {#each listCostumersAPI as api}
+                        <CostumerItemlist
+                            title={api['title'].toUpperCase()}
+                            users={api['names']}
+                            searchAllTitle= {() => {searchWithTitles(api['title'])}}
+                        />
+                    {/each}
+                    {:else}
+                    {#each listCostumersFILTERAPI as api2}
+                        <CostumerItemlist
+                            title={api2['title'].toUpperCase()}
+                            users={api2['names']}
+                            searchAllTitle= {() => {searchWithTitles(api2['title'])}}
+                        />
+                    {/each}
+                
+                {/if}
+
             {/if}
         </div>
     </div>
