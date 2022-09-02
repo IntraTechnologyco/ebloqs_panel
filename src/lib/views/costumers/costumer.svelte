@@ -5,7 +5,7 @@ import { fly } from 'svelte/transition';
 import { elasticOut } from 'svelte/easing';
 import { costStore } from "../../stores/costumers.store";
 import InputSearch from "../../components/input_search.svelte";
-import CostumerItemlist from "../home/components/costumer_itemlist.svelte";
+import CostumerItemlist from "./components/costumer_itemlist.svelte";
 
 
 

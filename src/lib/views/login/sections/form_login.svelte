@@ -30,7 +30,7 @@
         var emailIn = e.target.email.value;
         var password = e.target.password.value;
         var login = await admin.login(emailIn, password);
-        console.log(login)
+        console.log(await login.body)
     }
 </script>
 

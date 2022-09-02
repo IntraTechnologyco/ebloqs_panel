@@ -42,7 +42,7 @@ import { fly } from 'svelte/transition';
             icon={CostumersIcon}
             item='Customers'
             selectap={()=>{nav.selectIndex(1)}}
-            slected={indexPage === 1}
+            slected={indexPage === 1 || indexPage === 6}
            />
            <ItemMenu
             icon={ProyectIcon}
@@ -52,7 +52,7 @@ import { fly } from 'svelte/transition';
            />
            <ItemMenu
             icon={CryptoIcon}
-            item='Cryptocoins'
+            item='Tokens'
             selectap={()=>{nav.selectIndex(3)}}
             slected={indexPage === 3}
            />

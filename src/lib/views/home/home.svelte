@@ -7,6 +7,8 @@ import Proyects from "../proyects/proyects.svelte";
 import Crypto from "../crypto/crypto.svelte";
 import Finance from "../finance/finance.svelte";
 import Auth from "../authentication/auth.svelte";
+import Feed from "./feed.svelte";
+import ProfilePage from "../profiles/profile_page.svelte";
 
 let indexPage;
 
@@ -20,7 +22,9 @@ nav.indexPage.subscribe(val =>{
     <Slidebar></Slidebar>
     <div class="conten-ctn">
         <Header></Header> 
-        {#if indexPage == 1}
+        {#if indexPage == 0}
+            <Feed/>
+        {:else if indexPage == 1}
             <Costumer/>
         {:else if indexPage == 2}
             <Proyects/>
@@ -30,6 +34,8 @@ nav.indexPage.subscribe(val =>{
             <Finance/> 
         {:else if indexPage == 5}
             <Auth/>
+        {:else if indexPage == 6}
+            <ProfilePage/>
         {/if}
     </div>
 </div>
