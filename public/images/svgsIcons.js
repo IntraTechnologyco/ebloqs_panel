@@ -80,6 +80,11 @@ export const LogoutIcon=<svg width="29" height="30" viewBox="0 0 19 20" fill="no
 </clipPath>
 </defs>
 </svg>
+export const rowbIcon=<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9.01807 3.74268V14.2216" stroke="currentColor" stroke-width="1.71084" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M13.509 9.73047L9.01807 14.2214" stroke="currentColor" stroke-width="1.71084" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M4.5271 9.73047L9.01806 14.2214" stroke="currentColor" stroke-width="1.71084" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
 
 
 
