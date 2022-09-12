@@ -1,8 +1,17 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { getBalance } from '../../ApiFuntions/finance'
 import LinkButtonBack from '../../components/Buttons/LinkButtonBack'
 import CardLabelWithAmount from '../../components/Cards/CardLabelWithAmount'
 
 export default function Balance() {
+  const [balance,setBalance]=useState("0")
+  useEffect(()=>{
+    getBalance()
+    .then((res)=>{
+      setBalance(res.data.balance)
+
+    })
+  },[])
   return (
     <div>
       <LinkButtonBack text="Regresar" href="/finance"/>
@@ -11,7 +20,7 @@ export default function Balance() {
       <br />
       <CardLabelWithAmount text="Bank" amount={"500.000.000"} />
       <br />
-      <CardLabelWithAmount text="Balance" amount={"1500.000.000"} />
+      <CardLabelWithAmount text="Balance" amount={balance} />
       </div>
     </div>
   )

@@ -1,15 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ButtonBlueGradient from "../components/Buttons/ButtonBlueGradient";
 import CheckBox from "../components/CheckBox";
 import Input from "../components/Input";
+import {loginAdmin} from "../ApiFuntions/login"
+import LoaderFullScreen from "../components/LoaderFullScreen";
+import { useRouter } from "next/router";
 
-export default function login() {
+export default function Login() {
+  //states
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false); //handle login loader
+  // router
+  const router = useRouter()
   // HANDLE INPUTS ON CHANGE
   const handleInputsChange = ({ target }) => {
     setLoginData({
@@ -20,10 +27,22 @@ export default function login() {
   // HANDLE LOGIN
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log("loged");
+    setLoading(true)
+    loginAdmin(loginData).then((res)=>{
+      localStorage.setItem("access_token",res.data.access_token)
+      router.push("/")
+    })
+    .catch((err)=>{
+      console.log(err)
+      setLoading(false)
+    })
   };
+  useEffect(()=>{
+    //delete access_token from local storage
+    localStorage.removeItem("access_token")
+  },[])
   return (
-    <div className="flex">
+    <div className="flex fixed w-screen h-screen top-0 left-0 right-0">
       {/** login */}
       <div className="w-[50%] pl-20">
         <Image src="/images/logo.svg" width={150} height={70} />
@@ -33,6 +52,9 @@ export default function login() {
         <p className="text-purple-full-light text-center">
           Ingresa tus datos para acceder a Ebloqs
         </p>
+        <div className="bg-red-500">
+        
+        </div>
         {/** form */}
         <form onSubmit={(e) => handleLogin(e)} className="w-[400px] mx-auto">
           <Input
@@ -70,8 +92,10 @@ export default function login() {
           </p>
         </div>
       </div>
-
       <div className="bg-[url(/images/loginbg.png)] bg-contain bg-no-repeat bg-right h-screen w-[50%]" />
+     {
+      loading&&
+      <LoaderFullScreen loaderSize={70}/>}
     </div>
   );
 }

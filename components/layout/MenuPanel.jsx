@@ -12,7 +12,7 @@ const MenuPanel =({router})=> {
         <Link href="/"><Image src="/images/logow.svg" width={110} height={38} className="cursor-pointer"/></Link>
         </div>
         <ul>
-            <li className='my-3'><LinkButtonBlueWhite href="/customer" text="Customers" icon={CustomerIcon}/></li>
+            <li className='my-3'><LinkButtonBlueWhite href="/customers" text="Customers" icon={CustomerIcon}/></li>
             <li className='my-3'><LinkButtonBlueWhite href="/projects" text="Projects" icon={ProjectsIcon} /></li>
             <li className='my-3'><LinkButtonBlueWhite href="/tokens" text="Tokens" icon={TokensIcon}/></li>
             <li className='my-3'><LinkButtonBlueWhite href="/finance" text="Finance" icon={FinanceIcon}/></li>

@@ -1,10 +1,12 @@
 import Image from 'next/image'
-import React from 'react'
+import React, { useState,useEffect } from 'react'
+import { getBalance } from '../../ApiFuntions/finance'
 import CardDashboardWithSeeAllAndTitle from '../../components/Cards/CardDashboardWithSeeAllAndTitle'
 import CardDashboarLastWeek from '../../components/Cards/CardDashboarLastWeek'
 import RecentPaymentsTable from '../../components/RecentPaymentsTable'
 
 export default function Dashboard() {
+  const [balance,setBalance]=useState("0")
  const recentPaymentsDataTest=[
   {
     id:"1",
@@ -24,6 +26,14 @@ export default function Dashboard() {
   }
   
 ]
+
+  useEffect(()=>{
+    getBalance()
+    .then((res)=>{
+      setBalance(res.data.balance)
+
+    })
+  },[])
   return (
     <div>
       <h2 className="text-2xl font-bold text-purple-dark">Dashboard</h2>
@@ -32,7 +42,7 @@ export default function Dashboard() {
       <CardDashboarLastWeek  text="Tokens fungible" icon="/images/docpurpleicon.png" value="2.140" progressPercent="60" lastWeekPercent="2.98" up={true} />
       <CardDashboarLastWeek  text="EBL" icon="/images/docpurpleicon.png" value="1.677" progressPercent="20" lastWeekPercent="8.45" up={false} />
       <CardDashboarLastWeek  text="Customers" icon="/images/docpurpleicon.png" value="3.540" progressPercent="70" lastWeekPercent="2.87" up={false} />
-      <CardDashboarLastWeek  text="Binance" icon="/images/docpurpleicon.png" value="7.560" progressPercent="90" lastWeekPercent="4.65" up={true} />
+      <CardDashboarLastWeek  text="Balance" icon="/images/docpurpleicon.png" value={balance} progressPercent="0" lastWeekPercent="0.00" up={true} />
       </div>
       {/** tokens analytics and invesments analitycs seption */}
       <div className='flex mt-5'>

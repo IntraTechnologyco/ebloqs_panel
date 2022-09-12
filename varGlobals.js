@@ -1,1 +1,1 @@
-const apiUrl="https://www.api.ebloqs.com"
+export const apiUrl="https://www.api.ebloqs.com"
