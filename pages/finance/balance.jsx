@@ -16,9 +16,9 @@ export default function Balance() {
     <div>
       <LinkButtonBack text="Regresar" href="/finance"/>
       <div className='w-96 mt-10'>
-      <CardLabelWithAmount text="Credit/debit card" amount={"1000.000.000"} />
+      <CardLabelWithAmount text="Credit/debit card" amount={"0"} />
       <br />
-      <CardLabelWithAmount text="Bank" amount={"500.000.000"} />
+      <CardLabelWithAmount text="Bank" amount={"0"} />
       <br />
       <CardLabelWithAmount text="Balance" amount={balance} />
       </div>

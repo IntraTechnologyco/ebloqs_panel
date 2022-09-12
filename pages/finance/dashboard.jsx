@@ -1,12 +1,17 @@
 import Image from 'next/image'
 import React, { useState,useEffect } from 'react'
+import { getAllCustomers } from '../../ApiFuntions/customers'
 import { getBalance } from '../../ApiFuntions/finance'
+import { getTotalSupplyTokens } from '../../ApiFuntions/tokens'
 import CardDashboardWithSeeAllAndTitle from '../../components/Cards/CardDashboardWithSeeAllAndTitle'
 import CardDashboarLastWeek from '../../components/Cards/CardDashboarLastWeek'
 import RecentPaymentsTable from '../../components/RecentPaymentsTable'
 
 export default function Dashboard() {
   const [balance,setBalance]=useState("0")
+  const [ebl,setEbl]=useState("0")
+  const [custmersNumber,setCustumersNumber]=useState("0")
+
  const recentPaymentsDataTest=[
   {
     id:"1",
@@ -31,7 +36,13 @@ export default function Dashboard() {
     getBalance()
     .then((res)=>{
       setBalance(res.data.balance)
+    })
+    getTotalSupplyTokens().then((res)=>{
+      setEbl(res.data.data)
 
+    })
+    getAllCustomers().then((res)=>{
+      setCustumersNumber(res.data.length)
     })
   },[])
   return (
@@ -39,10 +50,10 @@ export default function Dashboard() {
       <h2 className="text-2xl font-bold text-purple-dark">Dashboard</h2>
       {/** last week cards */}
       <div className='grid grid-cols-4 gap-5 mt-7'>
-      <CardDashboarLastWeek  text="Tokens fungible" icon="/images/docpurpleicon.png" value="2.140" progressPercent="60" lastWeekPercent="2.98" up={true} />
-      <CardDashboarLastWeek  text="EBL" icon="/images/docpurpleicon.png" value="1.677" progressPercent="20" lastWeekPercent="8.45" up={false} />
-      <CardDashboarLastWeek  text="Customers" icon="/images/docpurpleicon.png" value="3.540" progressPercent="70" lastWeekPercent="2.87" up={false} />
-      <CardDashboarLastWeek  text="Balance" icon="/images/docpurpleicon.png" value={balance} progressPercent="0" lastWeekPercent="0.00" up={true} />
+      <CardDashboarLastWeek  text="Tokens fungible" icon="/images/docpurpleicon.png" value="0" progressPercent="0" lastWeekPercent="0.00" up={true} />
+      <CardDashboarLastWeek  text="EBL" icon="/images/docpurpleicon.png" value={ebl} progressPercent="0" lastWeekPercent="0.00" up={true} />
+      <CardDashboarLastWeek  text="Customers" icon="/images/docpurpleicon.png" value={custmersNumber} progressPercent="0" lastWeekPercent="0.00" up={true} />
+      <CardDashboarLastWeek  text="Balance" icon="/images/docpurpleicon.png" value={balance?balance:1} progressPercent="0" lastWeekPercent="0.00" up={true} />
       </div>
       {/** tokens analytics and invesments analitycs seption */}
       <div className='flex mt-5'>
