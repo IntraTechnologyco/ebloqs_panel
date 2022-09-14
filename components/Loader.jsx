@@ -1,8 +1,15 @@
-import Image from 'next/image'
 import React from 'react'
+import Lottie from "lottie-react";
+import animationData from '../public/loaderbloqs.json'
 
 export default function Loader({size}) {
+
   return (
-        <Image src="/images/tail-spin.svg" width={size} height={size} />
+    <div className='h-full w-full flex items-center justify-center'>
+      <div className={`${size}`}>
+      <Lottie animationData={animationData} loop={true} />
+      </div>
+    </div>
+        
   )
 }

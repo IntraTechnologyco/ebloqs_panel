@@ -4,7 +4,7 @@ import { apiUrl } from "../varGlobals"
 /** GET CUSTOMERS BY LASTNAME */
 export const getCustomersByLastname=(letter)=>{
     return new Promise((resolve, reject) => {  
-        axios.post(`${apiUrl}/clients/search/${letter}`,{
+        axios.post(`${apiUrl}/clients/search/${letter}`,null,{
             headers: {
                 Authorization : `Bearer ${localStorage.getItem("access_token")}`
                 }
@@ -23,7 +23,7 @@ export const getCustomersByLastname=(letter)=>{
 /** GET ALL CUSTOMERS */
 export const getAllCustomers=()=>{
     return new Promise((resolve, reject) => {  
-        axios.get(`${apiUrl}/user/all`,{
+        axios.get(`${apiUrl}/user/getOrderLastname`,{
             headers: {
                 Authorization : `Bearer ${localStorage.getItem("access_token")}`
                 }

@@ -15,7 +15,7 @@ const TopBar=({router})=> {
                 <div className='w-10 h-10 rounded-full'>
                 <Image src="/images/test2.png" width={50} height={50}/>
                 </div>
-                <span className='ml-2 font-medium'>Hola, Breiner Lopez</span>
+                <span className='ml-2 font-medium'>Hola, Usuario</span>
             </div>
             </div>
           </div>

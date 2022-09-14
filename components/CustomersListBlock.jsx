@@ -1,28 +1,10 @@
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { getCustomersByLastname } from "../ApiFuntions/customers";
+import React from "react";
 
 export default function CustomersListBlock({ letter, data, letterOnClick,textOnEmpty }) {
-  const [noData, setNoData] = useState(true);
-  const [users, setUsers] = useState([]);
-   useEffect(() => {
-    setUsers(
-      data?.filter((user) => {
-        return user?.name?.charAt(user.name.indexOf(" ")+1).toLowerCase() === letter.toLowerCase();
-      })
-    );
-  },[letter,data]); 
-/*   useEffect(()=>{
-    getCustomersByLastname("bernal")
-    .then((res)=>{
-      setUsers(res.data)
-    })
-  },[]) */
   return (
     <>
     {
-      
-      
       <div className="w-full flex flex-col text-purple-dark border-b pb-3 mb-5">
       {/** button letter */}
       <button
@@ -33,11 +15,11 @@ export default function CustomersListBlock({ letter, data, letterOnClick,textOnE
       </button>
       
       {/** Links username */}
-      {users&&users.length>0?users.map((user, idx) => {
+      {data&&data.length>0?data.map((user, idx) => {
         return (
-          <Link href="/customers/mmm" key={idx}>
+          <Link href={`/customers/${user.ownerID}`} key={idx}>
             <span className="text-left px-5 py-1 hover:bg-[#F6F4FD]/50 text-sm capitalize cursor-pointer">
-              {user.name}
+              {user.name} {user.lastname}
             </span>
           </Link>
         );

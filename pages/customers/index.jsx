@@ -8,8 +8,7 @@ export default function Customer() {
     const [searchTyped,setSearchTyped]=useState("")
     const [customers,setCustomers]=useState([])
     const [allCustomers,setAllCustomers]=useState([])
-    // aplhabet
-    const alphabet =["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+//useState
 
     useEffect(()=>{
       searchTyped?
@@ -37,9 +36,9 @@ export default function Customer() {
       allCustomers.length>0?!searchTyped&&
       <div className="shadow-lg border p-5">
         {
-          alphabet.map((item,idx)=>{
+          allCustomers.map((item,idx)=>{
             return(
-              <CustomersListBlock key={idx} textOnEmpty={false} letter={item} data={allCustomers} letterOnClick={()=>setSearchTyped(item)}/>
+              <CustomersListBlock key={idx} textOnEmpty={false} letter={item.title} data={item.lastnames} letterOnClick={()=>setSearchTyped(item.title.charAt(item.title.indexOf(" ")+1))}/>
             )
           })
         }

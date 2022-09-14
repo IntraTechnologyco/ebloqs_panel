@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import LinkButtonOutlinePurpleDark from '../../components/Buttons/LinkButtonOutlinePurpleDark'
@@ -7,47 +7,67 @@ import CustomerInvesmentTable from '../../components/CustomerInvesmentTable'
 import CardWithTitle from '../../components/Cards/CardWithTitle'
 import PointsAcumItem from '../../components/Cards/PointsAcumItem'
 import Link from 'next/link'
+import { getUserDataByUserId } from '../../ApiFuntions/user'
+import Loader from '../../components/Loader'
+import { converToCurrency } from '../../globalFunction/convertToCurrency'
 export default function Customer() {
+    //states
+    const [userInfo,setUserInfo]=useState({})
+    const [loading,setLoading]=useState(true)
+    //next router
     const router=useRouter()
+    useEffect(()=>{
+        getUserDataByUserId(router.query.id).then((res)=>{
+            setLoading(false)
+            setUserInfo(res.data)
+        }).catch((err)=>{
+            console.log(err)
+        })
+    },[router.query.id])
   return (
-    <div className='flex'>
+    <>
+    {
+        !loading?
+        <div className='flex'>
         <div className='w-[200px] bg-[#F9F9FA] fixed -ml-10 -mb-6 top-10 h-screen text-purple-dark p-5 border-r'>
-        <h2 className="text-xl font-bold text-purple-dark mb-3 text-center">Claudia Vania Arteaga Villacis</h2>
+        <h2 className="text-lg font-bold text-purple-dark mb-3 text-center">{userInfo.personalData.name} {userInfo.personalData.lastname}</h2>
         <div className='flex justify-center'>
-        <Image src="/images/test4.png" width={150} height={150} className="rounded-full" />
+        <Image src="/images/test4.png" width={120} height={120} className="rounded-full" />
         </div>
-        <p className='mt-3 text-blue-semi-dark font-bold text-sm text-center'>ID: 0916717937</p>
-        <p className='font-semibold text-sm text-center'>Nº De referencia <br /> FI99HL7B</p>
+        <p className='mt-3 text-blue-semi-dark font-bold text-sm text-center'>ID: {userInfo.personalData.dniNumber}</p>
+        <p className='font-semibold text-sm text-center'>Nº De referencia <br />{userInfo.primaryData[0].idRef}</p>
         <div className='text-xs mt-5'>
-            <div className='flex items-center my-1'>
+            <div className='flex items-center my-1 text-ellipsis'>
+                <div className='min-w-[24px]'>
                 <Image src="/images/emailicon.png" width={24} height={24}/>
-                <p className='ml-2'>claudia@hotmail.com</p>
+                </div>
+                <p className='ml-2 text-ellipsis overflow-hidden hover:overflow-visible'>{userInfo.primaryData[0].email}</p>
             </div>
             <div className='flex items-center my-1'>
                 <Image src="/images/phoneicon.png" width={24} height={24}/>
-                <p className='ml-2'>+593 99 800 4464</p>
+                <p className='ml-2'>{userInfo.personalData.phoneNumber}</p>
             </div>
             <div className='flex items-center my-1'>
                 <Image src="/images/calicon.png" width={24} height={24}/>
-                <p className='ml-2'>22/01/17</p>
+                <p className='ml-2'>{userInfo.personalData.birthdayDate}</p>
             </div>
             <div className='flex items-center my-1'>
                 <Image src="/images/neticon.png" width={24} height={24}/>
-                <p className='ml-2'>Ecuador</p>
+                <p className='ml-2'>{userInfo.addressData.country}</p>
             </div>
             <div className='flex items-center my-1'>
                 <Image src="/images/ubiicon.png" width={24} height={24}/>
-                <p className='ml-2'>Guayaquil</p>
+                <p className='ml-2'>{userInfo.addressData.city}</p>
             </div>
             <div className='flex items-center my-1'>
                 <div className='min-w-[24px]'>
                 <Image src="/images/houseicon.png" width={24} height={24}/>
                 </div>
-                <p className='ml-2'>Samborondon, Ciudad Celeste, Etapa cristalina,casa 4 villa 9</p>
+                <p className='ml-2'>{userInfo.addressData.address1}</p>
             </div>
             <div className='flex items-center my-1'>
                 <Image src="/images/balanceicon.png" width={24} height={24}/>
-                <p className='ml-2'>090100</p>
+                <p className='ml-2'>{userInfo.addressData.postalCode}</p>
             </div>
             <div className='mt-5 flex justify-center'>
             <LinkButtonOutlinePurpleDark href="/" text="View Document"/>
@@ -57,10 +77,10 @@ export default function Customer() {
 
         <div className='w-full pl-[180px]'>
             <div className='grid grid-cols-4 gap-3'>
-                <CustomerBalances text="Invesment" value="3" /> 
-                <CustomerBalances text="Money Balance" value="$ 1500" /> 
-                <CustomerBalances text="EBL Balance" value="1500" /> 
-                <CustomerBalances text="Token ebloqs" value="100" /> 
+                <CustomerBalances text="Invesment" value="0" /> 
+                <CustomerBalances text="Money Balance" value={converToCurrency(0)} /> 
+                <CustomerBalances text="EBL Balance" value={converToCurrency(userInfo.balanceData.data)} /> 
+                <CustomerBalances text="Token ebloqs" value="0" /> 
             </div>
             {/** second seption */}
             <div className='grid grid-cols-3 mt-5 gap-5'>
@@ -115,12 +135,14 @@ export default function Customer() {
                         <Image src="/images/test8.png" width={246} height={149}/>
                     </div>
                 </CardWithTitle>
-
                 </div>
             </div>
-
         </div>
-
     </div>
+         :<div className='h-screen absolute top-0 z-0 w-inherit mx-auto right-0 left-0'><Loader size="w-10" /></div>
+    
+
+    }
+    </>
   )
 }
