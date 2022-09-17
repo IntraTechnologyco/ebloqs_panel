@@ -3,19 +3,27 @@ import Input from "../components/Input"
 import ButtonBlueGradient from "../components/Buttons/ButtonBlueGradient"
 import { getTotalSupplyTokens } from '../ApiFuntions/tokens'
 import { converToCurrency } from '../globalFunction/convertToCurrency'
+import Loader from '../components/Loader'
 
 export default function Tokens() {
   const [totalSypply,setTotalSupply]=useState()
+  const [loading,setLoading]=useState(true)
+
   useEffect(()=>{
     getTotalSupplyTokens()
     .then((res)=>{
       setTotalSupply(res.data.data)
-      console.log(Number.MAX_SAFE_INTEGER)
+      setLoading(false)
+      console.log((res.data.data))
     })
   },[])
   return (
     <div className='max-w-[800px] mx-auto'>
-      <h2 className='text-purple-dark font-bold text-2xl'>Tokens</h2>
+      {
+        loading?<div className='h-screen absolute top-0 z-0 w-inherit mx-auto right-0 left-0'><Loader size="w-10" /></div>
+        :
+        <>
+        <h2 className='text-purple-dark font-bold text-2xl'>Tokens</h2>
       {/** card tokens */}
       <div className='border shadow-sm p-10 rounded-lg mt-5'>
         <Input type="string" disabled={true} label="EBL Supply" value={converToCurrency(totalSypply)}  />
@@ -39,6 +47,8 @@ export default function Tokens() {
        </div>
         </div>
       </div>
+        </>
+      }
     </div>
   )
 }

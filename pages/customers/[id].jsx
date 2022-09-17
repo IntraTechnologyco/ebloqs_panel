@@ -7,29 +7,40 @@ import CustomerInvesmentTable from '../../components/CustomerInvesmentTable'
 import CardWithTitle from '../../components/Cards/CardWithTitle'
 import PointsAcumItem from '../../components/Cards/PointsAcumItem'
 import Link from 'next/link'
-import { getUserDataByUserId } from '../../ApiFuntions/user'
+import { changeUserStatus, getUserDataByUserId } from '../../ApiFuntions/user'
 import Loader from '../../components/Loader'
 import { converToCurrency } from '../../globalFunction/convertToCurrency'
+import RadioButton from '../../components/RadioButton'
 export default function Customer() {
     //states
     const [userInfo,setUserInfo]=useState({})
+    const [userActiveChanged,setUserActiveChanged]=useState(true)
     const [loading,setLoading]=useState(true)
     //next router
     const router=useRouter()
     useEffect(()=>{
-        getUserDataByUserId(router.query.id).then((res)=>{
+        router.query.id&&getUserDataByUserId(router.query.id).then((res)=>{
             setLoading(false)
             setUserInfo(res.data)
+            setUserActiveChanged(res.data.primaryData[0].status)
         }).catch((err)=>{
             console.log(err)
         })
-    },[router.query.id])
+    },[router.query.id,userActiveChanged])
+    //handle Inactive or active user
+    const handleUserState=(e)=>{
+        if(e.target.checked===true){
+            console.log(e.target.value) 
+            changeUserStatus({id:router.query.id,status:JSON.parse(e.target.value.toLowerCase())})
+            setUserActiveChanged(JSON.parse(e.target.value.toLowerCase()))
+        } 
+    }
   return (
     <>
     {
         !loading?
         <div className='flex'>
-        <div className='w-[200px] bg-[#F9F9FA] fixed -ml-10 -mb-6 top-10 h-screen text-purple-dark p-5 border-r'>
+        <div className='w-[200px] overflow-y-auto bg-[#F9F9FA] fixed -ml-10 -mb-6 top-10 h-screen text-purple-dark p-5 border-r'>
         <h2 className="text-lg font-bold text-purple-dark mb-3 text-center">{userInfo.personalData.name} {userInfo.personalData.lastname}</h2>
         <div className='flex justify-center'>
         <Image src="/images/test4.png" width={120} height={120} className="rounded-full" />
@@ -71,6 +82,10 @@ export default function Customer() {
             </div>
             <div className='mt-5 flex justify-center'>
             <LinkButtonOutlinePurpleDark href="/" text="View Document"/>
+            </div>
+            <div className='mt-2'>
+               <RadioButton text="Inactive (Off)" id="inactive" name="status" checked={!userActiveChanged} value={false} onChange={(e)=>{handleUserState(e)}} /> 
+               <RadioButton text="Active (On)" id="active" name="status" checked={userActiveChanged} value={true}  onChange={(e)=>{handleUserState(e)}}/> 
             </div>
         </div>
         </div>
