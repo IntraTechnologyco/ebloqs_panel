@@ -41,7 +41,7 @@ export default function Customer() {
         !loading?
         <div className='flex'>
         <div className='w-[200px] overflow-y-auto bg-[#F9F9FA] fixed -ml-10 -mb-6 top-10 h-screen text-purple-dark p-5 border-r'>
-        <h2 className="text-lg font-bold text-purple-dark mb-3 text-center">{userInfo.personalData.name} {userInfo.personalData.lastname}</h2>
+        <h2 className="text-lg font-bold text-purple-dark mb-3 text-center capitalize">{userInfo.personalData.name} {userInfo.personalData.lastname}</h2>
         <div className='flex justify-center'>
         <Image src="/images/test4.png" width={120} height={120} className="rounded-full" />
         </div>
