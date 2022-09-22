@@ -81,7 +81,7 @@ export default function Customer() {
                 <p className='ml-2'>{userInfo.addressData.postalCode}</p>
             </div>
             <div className='mt-5 flex justify-center'>
-            <LinkButtonOutlinePurpleDark href="/" text="View Document"/>
+            <LinkButtonOutlinePurpleDark href={userInfo.documentData[0].documentURL} text="View Document"/>
             </div>
             <div className='mt-2'>
                <RadioButton text="Inactive (Off)" id="inactive" name="status" checked={!userActiveChanged} value={false} onChange={(e)=>{handleUserState(e)}} /> 

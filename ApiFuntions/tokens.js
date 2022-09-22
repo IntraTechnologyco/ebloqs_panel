@@ -18,3 +18,20 @@ export const getTotalSupplyTokens=()=>{
         })
     });
 }
+export const updateTokenPreventa=(data)=>{
+    return new Promise((resolve, reject) => {  
+        axios.post(`${apiUrl}/tokens/new`,data,{
+            headers: {
+                Authorization : `Bearer ${localStorage.getItem("access_token")}`
+                }
+        })
+        .then((res)=>{
+            console.log(res)
+           resolve(res);  
+        })
+        .catch((err)=>{
+            console.log(err)
+            reject(err);  
+        })
+    });
+}
