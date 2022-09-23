@@ -20,7 +20,7 @@ export const getTotalSupplyTokens=()=>{
 }
 export const updateTokenPreventa=(data)=>{
     return new Promise((resolve, reject) => {  
-        axios.post(`${apiUrl}/tokens/new`,data,{
+        axios.post(`${apiUrl}/tokens/update`,data,{
             headers: {
                 Authorization : `Bearer ${localStorage.getItem("access_token")}`
                 }
@@ -34,4 +34,12 @@ export const updateTokenPreventa=(data)=>{
             reject(err);  
         })
     });
+}
+export const getTokenData=async()=>{
+   const response= await axios.get(`${apiUrl}/tokens/get`,{
+        headers: {
+            Authorization : `Bearer ${localStorage.getItem("access_token")}`
+            }
+    })
+    return response.data
 }

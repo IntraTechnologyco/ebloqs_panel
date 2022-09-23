@@ -1,13 +1,28 @@
 import React, { useState } from 'react'
 
-export default function SelectOfStatesWithColors({data,state}) {
+export default function SelectOfStatesWithColors({state}) {
     const [stateSelect,setStateSelect]=useState(state)
-  return (
-    <select onChange={(e)=>setStateSelect(e.target.value)}  className={`w-full capitalize focus-within:outline-none ${stateSelect==="1"?"bg-green-200 text-green-700":stateSelect==="3"?"bg-blue-200 text-blue-700":stateSelect==="2"?"bg-red-200 text-red-700":stateSelect==="4"&&"bg-yellow-200 text-yellow-700" } font-medium rounded p-1`} >
+    const recentPaymentsDataTest=[
         {
-            data.map((item,idx)=>{
+            id:0,
+            state:"pending"
+          },
+        {
+          id:1,
+          state:"paid out"
+        },
+        {
+          id:2,
+          state:"not payed"
+        }
+        
+      ]
+  return (
+    <select onChange={(e)=>setStateSelect(e.target.value)} value={stateSelect} className={`w-full capitalize focus-within:outline-none ${stateSelect==0?"bg-yellow-200 text-yellow-700":stateSelect==2?"bg-blue-200 text-blue-700":stateSelect==1&&"bg-green-200 text-green-700" } font-medium rounded p-1`} >
+        {
+            recentPaymentsDataTest.map((item,idx)=>{
                 return(
-                    <option key={idx} value={item.id}>{state==="1"?"Paid out":state==="2"?"enviado":state==="3"?"not payed":state==="4"&&"Pending"}</option>
+                    <option key={idx} value={item.id}>{item.state}</option>
                 )
             })
         }

@@ -2,6 +2,7 @@ import Image from 'next/image'
 import React, { useState,useEffect } from 'react'
 import { getAllCustomers } from '../../ApiFuntions/customers'
 import { getBalance } from '../../ApiFuntions/finance'
+import { getPayments } from '../../ApiFuntions/payments'
 import { getTotalSupplyTokens } from '../../ApiFuntions/tokens'
 import CardDashboardWithSeeAllAndTitle from '../../components/Cards/CardDashboardWithSeeAllAndTitle'
 import CardDashboarLastWeek from '../../components/Cards/CardDashboarLastWeek'
@@ -11,38 +12,21 @@ export default function Dashboard() {
   const [balance,setBalance]=useState("0")
   const [ebl,setEbl]=useState("0")
   const [custmersNumber,setCustumersNumber]=useState("0")
-
- const recentPaymentsDataTest=[
-  {
-    id:"1",
-    state:"paid out"
-  },
-  {
-    id:"2",
-    state:"Enviado"
-  },
-  {
-    id:"3",
-    state:"not payed"
-  },
-  {
-    id:"4",
-    state:"pending"
-  }
-  
-]
+  const [allTransactions,setAllTransactions]=useState([])
 
   useEffect(()=>{
     getBalance()
     .then((res)=>{
       setBalance(res.data.balance)
     })
-    getTotalSupplyTokens().then((res)=>{
-      setEbl(res.data.data)
 
-    })
     getAllCustomers().then((res)=>{
       setCustumersNumber(res.data.length)
+    })
+    getPayments()
+    .then((res)=>{
+      console.log(res)
+      setAllTransactions(res.data)
     })
   },[])
   return (
@@ -102,14 +86,14 @@ export default function Dashboard() {
         <div className='mr-3 h-full'>
         <CardDashboardWithSeeAllAndTitle text="Recent back payment">
             <Image src="/images/paymentsChart.png" width={496} height={43}/>
-            <RecentPaymentsTable data={recentPaymentsDataTest}/>
+            <RecentPaymentsTable data={allTransactions.transactionsBank}/>
         </CardDashboardWithSeeAllAndTitle>
         </div>
         {/** recent credit/debit payment */}
         <div className='ml-3 h-full'>
         <CardDashboardWithSeeAllAndTitle text="Recent credit/debit payment">
           <Image src="/images/paymentsChart.png" width={496} height={43}/>
-          <RecentPaymentsTable data={recentPaymentsDataTest}/>
+          <RecentPaymentsTable data={allTransactions.transactionsCard}/>
         </CardDashboardWithSeeAllAndTitle>
         </div>
       </div>

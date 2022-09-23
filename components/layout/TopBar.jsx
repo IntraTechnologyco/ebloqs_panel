@@ -13,7 +13,7 @@ const TopBar=({router})=> {
             {/** user */}
             <div className='ml-5 flex items-center justify-end min-w-[220px]'>
                 <div className='w-10 h-10 rounded-full'>
-                <Image src="/images/test2.png" width={50} height={50}/>
+                <Image src="/images/logoadmin.png" width={50} height={50}/>
                 </div>
                 <span className='ml-2 font-medium'>Hola, Usuario</span>
             </div>
