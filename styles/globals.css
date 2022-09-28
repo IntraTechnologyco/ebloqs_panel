@@ -11,6 +11,9 @@ body {
 .bg-gradient-blue{
   background: conic-gradient(from 90.56deg at 51.42% 62.5%, #1B1B7C 0deg, #245FB1 98.17deg, #481CAE 275.62deg, #1616B6 343.12deg, #1B1B7C 360deg);
 }
+.bg-gradient-disabled{
+  background: conic-gradient(from 90.56deg at 51.42% 62.5%, #6f6f76 0deg, #646f7e 98.17deg, #655c7a 275.62deg, #7676a7 343.12deg, #69698e 360deg);
+}
 /** progress bar **/
 progress {
   -webkit-appearance: none;

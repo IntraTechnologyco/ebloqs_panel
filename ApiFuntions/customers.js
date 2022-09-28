@@ -39,3 +39,12 @@ export const getAllCustomers=()=>{
     });
 
 }
+/** GET ALL CUSTOMERS */
+export const getAllUsersWithoutOrder=async()=>{
+      const response = await axios.get(`${apiUrl}/user/all`,{
+            headers: {
+                Authorization : `Bearer ${localStorage.getItem("access_token")}`
+                }
+        })
+        return response
+}

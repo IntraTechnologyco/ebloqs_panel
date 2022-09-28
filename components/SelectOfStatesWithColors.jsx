@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { updateTransactionStatus } from '../ApiFuntions/transactions'
 
-export default function SelectOfStatesWithColors({state}) {
-    const [stateSelect,setStateSelect]=useState(state)
+export default function SelectOfStatesWithColors({state,onChange}) {
+    
     const recentPaymentsDataTest=[
         {
             id:0,
@@ -17,8 +18,9 @@ export default function SelectOfStatesWithColors({state}) {
         }
         
       ]
+
   return (
-    <select onChange={(e)=>setStateSelect(e.target.value)} value={stateSelect} className={`w-full capitalize focus-within:outline-none ${stateSelect==0?"bg-yellow-200 text-yellow-700":stateSelect==2?"bg-blue-200 text-blue-700":stateSelect==1&&"bg-green-200 text-green-700" } font-medium rounded p-1`} >
+    <select onChange={(e)=>onChange(e)} value={state} className={`w-full capitalize focus-within:outline-none ${state==0?"bg-yellow-200 text-yellow-700":state==2?"bg-blue-200 text-blue-700":state==1&&"bg-green-200 text-green-700" } font-medium rounded p-1`} >
         {
             recentPaymentsDataTest.map((item,idx)=>{
                 return(

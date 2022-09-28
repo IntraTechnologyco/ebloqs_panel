@@ -1,43 +1,46 @@
 import Image from 'next/image'
 import React, { useState,useEffect } from 'react'
-import { getAllCustomers } from '../../ApiFuntions/customers'
+import { getAllCustomers, getAllUsersWithoutOrder } from '../../ApiFuntions/customers'
 import { getBalance } from '../../ApiFuntions/finance'
-import { getPayments } from '../../ApiFuntions/payments'
-import { getTotalSupplyTokens } from '../../ApiFuntions/tokens'
+import { getPayments } from '../../ApiFuntions/transactions'
 import CardDashboardWithSeeAllAndTitle from '../../components/Cards/CardDashboardWithSeeAllAndTitle'
 import CardDashboarLastWeek from '../../components/Cards/CardDashboarLastWeek'
 import RecentPaymentsTable from '../../components/RecentPaymentsTable'
 
 export default function Dashboard() {
-  const [balance,setBalance]=useState("0")
-  const [ebl,setEbl]=useState("0")
+  const [eblBalance,setEblBalance]=useState("0")
   const [custmersNumber,setCustumersNumber]=useState("0")
   const [allTransactions,setAllTransactions]=useState([])
+  const [stateChanged,setStateChanged]=useState(false)
 
   useEffect(()=>{
     getBalance()
     .then((res)=>{
-      setBalance(res.data.balance)
+      setEblBalance(res.data.balance)
+      console.log(res.data)
     })
 
-    getAllCustomers().then((res)=>{
+    getAllUsersWithoutOrder().then((res)=>{
       setCustumersNumber(res.data.length)
     })
+   
+  },[])
+  useEffect(()=>{
     getPayments()
     .then((res)=>{
       console.log(res)
       setAllTransactions(res.data)
     })
-  },[])
+  },[stateChanged])
   return (
     <div>
       <h2 className="text-2xl font-bold text-purple-dark">Dashboard</h2>
       {/** last week cards */}
       <div className='grid grid-cols-4 gap-5 mt-7'>
       <CardDashboarLastWeek  text="Tokens fungible" icon="/images/docpurpleicon.png" value="0" progressPercent="0" lastWeekPercent="0.00" up={true} />
-      <CardDashboarLastWeek  text="EBL" icon="/images/docpurpleicon.png" value={ebl} progressPercent="0" lastWeekPercent="0.00" up={true} />
+      <CardDashboarLastWeek  text="EBL" icon="/images/docpurpleicon.png" value={eblBalance} progressPercent="0" lastWeekPercent="0.00" up={true} />
       <CardDashboarLastWeek  text="Customers" icon="/images/docpurpleicon.png" value={custmersNumber} progressPercent="0" lastWeekPercent="0.00" up={true} />
-      <CardDashboarLastWeek  text="Balance" icon="/images/docpurpleicon.png" value={balance?balance:1} progressPercent="0" lastWeekPercent="0.00" up={true} />
+      <CardDashboarLastWeek  text="Balance" icon="/images/docpurpleicon.png" value={0} progressPercent="0" lastWeekPercent="0.00" up={true} />
       </div>
       {/** tokens analytics and invesments analitycs seption */}
       <div className='flex mt-5'>
@@ -86,14 +89,14 @@ export default function Dashboard() {
         <div className='mr-3 h-full'>
         <CardDashboardWithSeeAllAndTitle text="Recent back payment">
             <Image src="/images/paymentsChart.png" width={496} height={43}/>
-            <RecentPaymentsTable data={allTransactions.transactionsBank}/>
+            <RecentPaymentsTable data={allTransactions.transactionsBank} setStateChanged={setStateChanged} stateChanged={stateChanged} selectStateOn={true} />
         </CardDashboardWithSeeAllAndTitle>
         </div>
         {/** recent credit/debit payment */}
         <div className='ml-3 h-full'>
         <CardDashboardWithSeeAllAndTitle text="Recent credit/debit payment">
           <Image src="/images/paymentsChart.png" width={496} height={43}/>
-          <RecentPaymentsTable data={allTransactions.transactionsCard}/>
+          <RecentPaymentsTable data={allTransactions.transactionsCard} selectStateOn={false}/>
         </CardDashboardWithSeeAllAndTitle>
         </div>
       </div>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
-import LinkButtonOutlinePurpleDark from '../../components/Buttons/LinkButtonOutlinePurpleDark'
 import CustomerBalances from '../../components/Cards/CustomerBalances'
 import CustomerInvesmentTable from '../../components/CustomerInvesmentTable'
 import CardWithTitle from '../../components/Cards/CardWithTitle'
@@ -11,9 +10,12 @@ import { changeUserStatus, getUserDataByUserId } from '../../ApiFuntions/user'
 import Loader from '../../components/Loader'
 import { converToCurrency } from '../../globalFunction/convertToCurrency'
 import RadioButton from '../../components/RadioButton'
+import CustomModal from '../../components/modals/CustomModal'
+import ButtonOutlinePurple from '../../components/Buttons/ButtonOutlinePurple'
 export default function Customer() {
     //states
     const [userInfo,setUserInfo]=useState({})
+    const [documentImagesPopup,setDocumentImagesPopup]=useState(false)
     const [userActiveChanged,setUserActiveChanged]=useState(true)
     const [loading,setLoading]=useState(true)
     //next router
@@ -37,9 +39,11 @@ export default function Customer() {
     }
   return (
     <>
+   
     {
         !loading?
         <div className='flex'>
+             
         <div className='w-[200px] overflow-y-auto bg-[#F9F9FA] fixed -ml-10 -mb-6 top-10 h-screen text-purple-dark p-5 border-r'>
         <h2 className="text-lg font-bold text-purple-dark mb-3 text-center capitalize">{userInfo.personalData.name} {userInfo.personalData.lastname}</h2>
         <div className='flex justify-center'>
@@ -81,7 +85,7 @@ export default function Customer() {
                 <p className='ml-2'>{userInfo.addressData.postalCode}</p>
             </div>
             <div className='mt-5 flex justify-center'>
-            <LinkButtonOutlinePurpleDark href={userInfo.documentData[0].documentURL} text="View Document"/>
+            <ButtonOutlinePurple onClick={()=>{setDocumentImagesPopup(true)}} /* href={userInfo?.documentData[0]?.documentURL} */ text="View Document"/>
             </div>
             <div className='mt-2'>
                <RadioButton text="Inactive (Off)" id="inactive" name="status" checked={!userActiveChanged} value={false} onChange={(e)=>{handleUserState(e)}} /> 
@@ -91,6 +95,21 @@ export default function Customer() {
         </div>
 
         <div className='w-full pl-[180px]'>
+            {
+                documentImagesPopup&&
+                <CustomModal onClose={()=>{setDocumentImagesPopup(false)}}>
+                    <div className='grid grid-cols-2 gap-2 min-w-[600px]'>
+                    {userInfo?.documentData.map((item,idx)=>{
+                        return <div key={idx} className='col-span-1 w-full relative h-52'>
+                        <a href={item.documentURL} target="_black" rel="noopener noreferrer"><Image src={item.documentURL} layout='fill'/></a>
+                        </div>
+                    
+                    })
+                    }
+                    </div>
+                    
+                </CustomModal>
+            } 
             <div className='grid grid-cols-4 gap-3'>
                 <CustomerBalances text="Invesment" value="0" /> 
                 <CustomerBalances text="Money Balance" value={converToCurrency(0)} /> 
