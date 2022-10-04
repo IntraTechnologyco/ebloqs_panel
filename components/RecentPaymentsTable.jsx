@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { confirmBlockchainTransfer, updateTransactionStatus } from '../ApiFuntions/transactions'
-import ConfirmModal from './modals/confirmModal'
+import ConfirmModal from './modals/ConfirmModal'
 import SelectOfStatesWithColors from './SelectOfStatesWithColors'
 
 export default function RecentPaymentsTable({data,setStateChanged,stateChanged,selectStateOn}) {
