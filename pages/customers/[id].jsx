@@ -24,7 +24,7 @@ export default function Customer() {
         router.query.id&&getUserDataByUserId(router.query.id).then((res)=>{
             setLoading(false)
             setUserInfo(res.data)
-            setUserActiveChanged(res.data.primaryData[0].status)
+            setUserActiveChanged(res.data.primaryData[0]?.status)
         }).catch((err)=>{
             console.log(err)
         })
@@ -45,44 +45,44 @@ export default function Customer() {
         <div className='flex'>
              
         <div className='w-[200px] overflow-y-auto bg-[#F9F9FA] fixed -ml-10 -mb-6 top-10 h-screen text-purple-dark p-5 border-r'>
-        <h2 className="text-lg font-bold text-purple-dark mb-3 text-center capitalize">{userInfo.personalData.name} {userInfo.personalData.lastname}</h2>
+        <h2 className="text-lg font-bold text-purple-dark mb-3 text-center capitalize">{userInfo.personalData?.name} {userInfo.personalData.lastname}</h2>
         <div className='flex justify-center'>
         <Image src="/images/test4.png" width={120} height={120} className="rounded-full" />
         </div>
-        <p className='mt-3 text-blue-semi-dark font-bold text-sm text-center'>ID: {userInfo.personalData.dniNumber}</p>
-        <p className='font-semibold text-sm text-center'>Nº De referencia <br />{userInfo.primaryData[0].idRef}</p>
+        <p className='mt-3 text-blue-semi-dark font-bold text-sm text-center'>ID: {userInfo.personalData?.dniNumber}</p>
+        <p className='font-semibold text-sm text-center'>Nº De referencia <br />{userInfo.primaryData[0]?.idRef}</p>
         <div className='text-xs mt-5'>
             <div className='flex items-center my-1 text-ellipsis'>
                 <div className='min-w-[24px]'>
                 <Image src="/images/emailicon.png" width={24} height={24}/>
                 </div>
-                <p className='ml-2 text-ellipsis overflow-hidden hover:overflow-visible'>{userInfo.primaryData[0].email}</p>
+                <p className='ml-2 text-ellipsis overflow-hidden hover:overflow-visible'>{userInfo.primaryData[0]?.email}</p>
             </div>
             <div className='flex items-center my-1'>
                 <Image src="/images/phoneicon.png" width={24} height={24}/>
-                <p className='ml-2'>{userInfo.personalData.phoneNumber}</p>
+                <p className='ml-2'>{userInfo.personalData?.phoneNumber}</p>
             </div>
             <div className='flex items-center my-1'>
                 <Image src="/images/calicon.png" width={24} height={24}/>
-                <p className='ml-2'>{userInfo.personalData.birthdayDate}</p>
+                <p className='ml-2'>{userInfo.personalData?.birthdayDate}</p>
             </div>
             <div className='flex items-center my-1'>
                 <Image src="/images/neticon.png" width={24} height={24}/>
-                <p className='ml-2'>{userInfo.addressData.country}</p>
+                <p className='ml-2'>{userInfo.addressData?.country}</p>
             </div>
             <div className='flex items-center my-1'>
                 <Image src="/images/ubiicon.png" width={24} height={24}/>
-                <p className='ml-2'>{userInfo.addressData.city}</p>
+                <p className='ml-2'>{userInfo.addressData?.city}</p>
             </div>
             <div className='flex items-center my-1'>
                 <div className='min-w-[24px]'>
                 <Image src="/images/houseicon.png" width={24} height={24}/>
                 </div>
-                <p className='ml-2'>{userInfo.addressData.address1}</p>
+                <p className='ml-2'>{userInfo.addressData?.address1}</p>
             </div>
             <div className='flex items-center my-1'>
                 <Image src="/images/balanceicon.png" width={24} height={24}/>
-                <p className='ml-2'>{userInfo.addressData.postalCode}</p>
+                <p className='ml-2'>{userInfo.addressData?.postalCode}</p>
             </div>
             <div className='mt-5 flex justify-center'>
             <ButtonOutlinePurple onClick={()=>{setDocumentImagesPopup(true)}} /* href={userInfo?.documentData[0]?.documentURL} */ text="View Document"/>
@@ -100,8 +100,8 @@ export default function Customer() {
                 <CustomModal onClose={()=>{setDocumentImagesPopup(false)}}>
                     <div className='grid grid-cols-2 gap-2 min-w-[600px]'>
                     {userInfo?.documentData.map((item,idx)=>{
-                        return <div key={idx} className='col-span-1 w-full relative h-52'>
-                        <a href={item.documentURL} target="_black" rel="noopener noreferrer"><Image src={item.documentURL} layout='fill'/></a>
+                        return <div key={idx} className='col-span-1 shadow w-full relative h-52'>
+                        <a href={item.documentURL} target="_black" rel="noopener noreferrer"><Image className='object-contain' src={item.documentURL} layout='fill'/></a>
                         </div>
                     
                     })
