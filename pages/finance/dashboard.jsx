@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React, { useState,useEffect } from 'react'
-import { getAllCustomers, getAllUsersWithoutOrder } from '../../ApiFuntions/customers'
+import { getAllUsersWithoutOrder } from '../../ApiFuntions/customers'
 import { getBalance } from '../../ApiFuntions/finance'
 import { getPayments } from '../../ApiFuntions/transactions'
 import CardDashboardWithSeeAllAndTitle from '../../components/Cards/CardDashboardWithSeeAllAndTitle'

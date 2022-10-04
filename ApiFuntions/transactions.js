@@ -17,3 +17,13 @@ export const updateTransactionStatus=async(data)=>{
         console.log(response)
         return response
 }
+
+//PAID OUT TRANSFER TO BLOCKCHAIN
+export const confirmBlockchainTransfer=async(to,amount)=>{
+    const response = await axios.post(`$https://ebloqs-hub-blockchain.herokuapp.com/api/token/Transfer?to=${to}&amount=${amount}`,null,{
+        headers: {
+            Authorization : `Bearer ${localStorage.getItem("access_token")}`
+        }})
+        console.log(response)
+        return response
+}
