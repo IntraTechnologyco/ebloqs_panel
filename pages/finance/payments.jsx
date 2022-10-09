@@ -7,10 +7,10 @@ import Select from '../../components/Select'
 export default function Payments() {
   const testArrayPaymentMode=[
     {
-      name:"Tarjeta de crédito"
+      name:"credit/debit"
     },
     {
-      name:"Tarjeta debito"
+      name:"bank SWIFT"
     }
   ]
   return (

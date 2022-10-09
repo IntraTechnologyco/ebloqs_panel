@@ -52,7 +52,7 @@ export default function RecentPaymentsTable({data,setStateChanged,stateChanged,s
                         </td>
                         <td> {transaction.create.substring(0,10)} </td>
                         <td>${transaction.amount} </td>
-                        <td>{transaction.customer.substring(0,10)}</td>
+                        <td>{transaction.customer_name}</td>
                     </tr>
                 )
                 })

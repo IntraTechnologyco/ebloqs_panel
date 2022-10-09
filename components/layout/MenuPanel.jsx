@@ -16,7 +16,7 @@ const MenuPanel =({router})=> {
             <li className='my-3'><LinkButtonBlueWhite href="/projects" text="Projects" icon={ProjectsIcon} /></li>
             <li className='my-3'><LinkButtonBlueWhite href="/tokens" text="Tokens" icon={TokensIcon}/></li>
             <li className='my-3'><LinkButtonBlueWhite href="/finance" text="Finance" icon={FinanceIcon}/></li>
-            <li className='my-3'><LinkButtonBlueWhite href="/authentication" text="Authentication" icon={AutIcon}/></li>
+            <li className='my-3'><LinkButtonBlueWhite href="/admin" text="Admin" icon={AutIcon}/></li>
         </ul>
         <hr  className='my-10'/>
         <LinkButtonBlueWhite href="/login" text="Salir" icon={LogoutIcon}/>

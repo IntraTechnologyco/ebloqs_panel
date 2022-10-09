@@ -18,7 +18,6 @@ export const getCustomersByLastname=(letter)=>{
             reject(err);  
         })
     });
-
 }
 /** GET ALL CUSTOMERS */
 export const getAllCustomers=()=>{
