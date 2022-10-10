@@ -47,7 +47,7 @@ export default function PaymentsTable({data}) {
           {
             data.map((item,idx)=>{
               return (
-                <tr className="text-center border-b h-12">
+                <tr key={idx} className="text-center border-b h-12">
                   <td className="text-blue-semi-dark flex items-center justify-center my-auto h-12">
                       <Image src="/images/docicon.png" width={22} height={22} />
                       Descargar
