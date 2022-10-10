@@ -8,6 +8,23 @@ export const getPayments=async()=>{
         }})
         return response
 }
+// GET TRASACTIONS BY TYPE
+export const getTransactionsByType=async(type)=>{
+    const response = await axios.post(`${apiUrl}/transactions/type`,{type},{
+        headers: {
+            Authorization : `Bearer ${localStorage.getItem("access_token")}`
+        }})
+        return response
+}
+// GET TRASACTIONS BALANCES
+export const getTransactionBalances=async()=>{
+    const response = await axios.get(`${apiUrl}/transactions/balances`,{
+           headers: {
+               Authorization : `Bearer ${localStorage.getItem("access_token")}`
+               }
+       })
+       return response
+}
 
 export const updateTransactionStatus=async(data)=>{
     const response = await axios.post(`${apiUrl}/transactions/status`,data,{

@@ -9,7 +9,7 @@ export default function Select({data,label,onChange,value,name}) {
         {
             data.map((opt,idx)=>{
                 return(
-                    <option key={idx} value={opt.name} >{opt.name}</option>
+                    <option key={idx} value={opt.type} >{opt.name}</option>
                 )
             })
         }

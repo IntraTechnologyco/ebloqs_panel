@@ -25,7 +25,7 @@ export default function Authentication() {
             </select>
         </div>
         </div>
-     <AdminTable  />
+     <AdminTable/>
      </div>
       {/** pagination handler */}
     <div className="mt-5">

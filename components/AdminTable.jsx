@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import ButtonDelete from './Buttons/ButtonDelete'
 import ButtonEdit from './Buttons/ButtonEdit'
-import Search from './Search'
 import SelectWithoutLabel from "../components/selects/SelectWithoutLabel"
 import SelectAdminStatus from './selects/SelectAdminStatus'
 import ConfirmModal from "../components/modals/ConfirmModal"

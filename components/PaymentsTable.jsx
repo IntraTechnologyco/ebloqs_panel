@@ -3,7 +3,7 @@ import React from "react";
 import Search from "../components/Search";
 import PaginationHandler from "./PaginationHandler";
 
-export default function PaymentsTable() {
+export default function PaymentsTable({data}) {
   const showNumber = [5, 10, 15, 20, 25, 30];
   return (
     <div>
@@ -44,92 +44,26 @@ export default function PaymentsTable() {
           </tr>
         </thead>
         <tbody>
-          <tr className="text-center border-b h-12">
-            <td className="text-blue-semi-dark flex items-center justify-center my-auto h-12">
-                <Image src="/images/docicon.png" width={22} height={22} />
-                Descargar
-            </td>
-            <td>
-              <Image src="/images/cardlogo.png" width={25} height={16} />
-              <span className="ml-2">*****1235</span>
-            </td>
-            <td>5/09/2021</td>
-            <td>$100.00</td>
-            <td>Breiner Lopez</td>
-            <td className="text-blue-semi-dark">#30583</td>
-          </tr>
-          <tr className="text-center border-b h-12">
-            <td className="text-blue-semi-dark"><Image src="/images/docicon.png" width={22} height={22} />
-                Descargar</td>
-            <td>
-              <Image src="/images/cardlogo.png" width={25} height={16} />
-              <span className="ml-2">*****1235</span>
-            </td>
-            <td>5/09/2021</td>
-            <td>$100.00</td>
-            <td>Breiner Lopez</td>
-            <td className="text-blue-semi-dark">#30583</td>
-          </tr>
-          <tr className="text-center border-b h-12">
-            <td className="text-blue-semi-dark"><Image src="/images/docicon.png" width={22} height={22} />
-                Descargar</td>
-            <td>
-              <Image src="/images/cardlogo.png" width={25} height={16} />
-              <span className="ml-2">*****1235</span>
-            </td>
-            <td>5/09/2021</td>
-            <td>$100.00</td>
-            <td>Breiner Lopez</td>
-            <td className="text-blue-semi-dark">#30583</td>
-          </tr>
-          <tr className="text-center border-b h-12">
-            <td className="text-blue-semi-dark"><Image src="/images/docicon.png" width={22} height={22} />
-                Descargar</td>
-            <td>
-              <Image src="/images/cardlogo.png" width={25} height={16} />
-              <span className="ml-2">*****1235</span>
-            </td>
-            <td>5/09/2021</td>
-            <td>$100.00</td>
-            <td>Breiner Lopez</td>
-            <td className="text-blue-semi-dark">#30583</td>
-          </tr>
-          <tr className="text-center border-b h-12">
-            <td className="text-blue-semi-dark"><Image src="/images/docicon.png" width={22} height={22} />
-                Descargar</td>
-            <td>
-              <Image src="/images/cardlogo.png" width={25} height={16} />
-              <span className="ml-2">*****1235</span>
-            </td>
-            <td>5/09/2021</td>
-            <td>$100.00</td>
-            <td>Breiner Lopez</td>
-            <td className="text-blue-semi-dark">#30583</td>
-          </tr>
-          <tr className="text-center border-b h-12">
-            <td className="text-blue-semi-dark"><Image src="/images/docicon.png" width={22} height={22} />
-                Descargar</td>
-            <td>
-              <Image src="/images/cardlogo.png" width={25} height={16} />
-              <span className="ml-2">*****1235</span>
-            </td>
-            <td>5/09/2021</td>
-            <td>$100.00</td>
-            <td>Breiner Lopez</td>
-            <td className="text-blue-semi-dark">#30583</td>
-          </tr>
-          <tr className="text-center border-b h-12">
-            <td className="text-blue-semi-dark"><Image src="/images/docicon.png" width={22} height={22} />
-                Descargar</td>
-            <td>
-              <Image src="/images/cardlogo.png" width={25} height={16} />
-              <span className="ml-2">*****1235</span>
-            </td>
-            <td>5/09/2021</td>
-            <td>$100.00</td>
-            <td>Breiner Lopez</td>
-            <td className="text-blue-semi-dark">#30583</td>
-          </tr>
+          {
+            data.map((item,idx)=>{
+              return (
+                <tr className="text-center border-b h-12">
+                  <td className="text-blue-semi-dark flex items-center justify-center my-auto h-12">
+                      <Image src="/images/docicon.png" width={22} height={22} />
+                      Descargar
+                  </td>
+                  <td>
+                    <Image src="/images/cardlogo.png" width={25} height={16} />
+                    <span className="ml-2">*********5241</span>
+                  </td>
+                  <td>{item.create.substring(0,10)}</td>
+                  <td>{item.amount}</td>
+                  <td>{item.customer_name}</td>
+                  <td className="text-blue-semi-dark">{item.id}</td>
+                </tr>
+              )
+            })
+          }
         </tbody>
       </table>
       
