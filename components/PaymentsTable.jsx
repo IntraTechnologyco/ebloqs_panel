@@ -1,37 +1,14 @@
 import Image from "next/image";
-import React from "react";
-import Search from "../components/Search";
-import PaginationHandler from "./PaginationHandler";
+import {convertToCurrency} from "../globalFunction/convertToCurrency"
 
-export default function PaymentsTable({data}) {
-  const showNumber = [5, 10, 15, 20, 25, 30];
+export default function PaymentsTable({data}) {;
+  //hide payment method except last four
+  const convertMethodPaymentPrivate=(value)=>{
+    const converted = value.substring(0,value.length-4).replace(/[0-9]/gi,"•")+value.substring(value.length-4)
+    return converted
+  }
+
   return (
-    <div>
-    <div className="border shadow p-7 rounded">
-      {/** table header option */}
-      <div className="flex justify-between items-center">
-        {/** seacr input*/}
-        <div className="w-96 h-8">
-          <Search placeholder="Search" />
-        </div>
-        {/** show columns number*/}
-        <div className="flex w-36 items-center">
-          <span>Show</span>
-          <select
-            name="show"
-            className="ml-10 border rounded h-12 w-full focus-within:outline-none px-2 text-purple-dark"
-          >
-            {showNumber.map((opt, idx) => {
-              return (
-                <option key={idx} value={opt}>
-                  {opt}
-                </option>
-              );
-            })}
-          </select>
-        </div>
-      </div>
-      {/** table*/}
       <table className="w-full mt-10 text-purple-dark">
         <thead>
           <tr>
@@ -54,10 +31,10 @@ export default function PaymentsTable({data}) {
                   </td>
                   <td>
                     <Image src="/images/cardlogo.png" width={25} height={16} />
-                    <span className="ml-2">*********5241</span>
+                    <span className="ml-2">{convertMethodPaymentPrivate(item.payment_number)}</span>
                   </td>
                   <td>{item.create.substring(0,10)}</td>
-                  <td>{item.amount}</td>
+                  <td>{convertToCurrency(item.amount,"usd")}</td>
                   <td>{item.customer_name}</td>
                   <td className="text-blue-semi-dark">{item.id}</td>
                 </tr>
@@ -66,12 +43,6 @@ export default function PaymentsTable({data}) {
           }
         </tbody>
       </table>
-      
-    </div>
-    {/** pagination handler */}
-    <div className="mt-5">
-      <PaginationHandler/>
-      </div>
-    </div>
+
   );
 }
