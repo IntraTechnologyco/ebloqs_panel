@@ -2,7 +2,7 @@ import React, {useEffect, useState } from 'react'
 import Input from "../components/Input"
 import ButtonBlueGradient from "../components/Buttons/ButtonBlueGradient"
 import { getTokenData, getTotalSupplyTokens, updateTokenPreventa } from '../ApiFuntions/tokens'
-import { converToCurrency } from '../globalFunction/convertToCurrency'
+import { convertToCurrency } from '../globalFunction/convertToCurrency'
 import Loader from '../components/Loader'
 
 export default function Tokens() {
@@ -65,19 +65,19 @@ export default function Tokens() {
         <h2 className='text-purple-dark font-bold text-2xl'>Tokens</h2>
       {/** card tokens */}
       <div className='border shadow-sm p-10 rounded-lg mt-5'>
-        <Input type="string" disabled={true} label="EBL Supply" value={converToCurrency(totalSypply)}  />
+        <Input type="string" disabled={true} label="EBL Supply" value={convertToCurrency(totalSypply)}  />
         <div className='mt-5 w-60 ml-auto'>
         {/* <ButtonBlueGradient text="Create" onClick={()=>console.log("token create")} /> */}
         </div>
         {/** balances */}
         <div className='grid grid-cols-2 gap-10 mt-10'>
-        <Input  onChange={(e)=>handleInputsOnChange(e)} type="string" disabled={true} label="EBL Balance" name="ebl_balance" value={converToCurrency(parseInt(eblBalance)-preventaData.ebl_balance)}/>
-        <Input onChange={(e)=>handleInputsOnChange(e)} type="string" disabled={true} label="Dollar Balance" name="dollar_balance" value={converToCurrency(BigInt((parseInt(eblBalance)-preventaData.ebl_balance)*icoCost),"USD")} />
+        <Input  onChange={(e)=>handleInputsOnChange(e)} type="string" disabled={true} label="EBL Balance" name="ebl_balance" value={convertToCurrency(parseInt(eblBalance)-preventaData.ebl_balance)}/>
+        <Input onChange={(e)=>handleInputsOnChange(e)} type="string" disabled={true} label="Dollar Balance" name="dollar_balance" value={convertToCurrency(BigInt((parseInt(eblBalance)-preventaData.ebl_balance)*icoCost),"USD")} />
         </div>
         <div className='grid grid-cols-2 gap-10'>
           <div>
-          <Input onChange={(e)=>handleInputsOnChange(e)} type="string" disabled={true} label="Private round" name="private_round" value={converToCurrency(preventaData.private_round,"USD")}  />
-          <Input onChange={(e)=>handleInputsOnChange(e)} type="string" disabled={true} label="Presale" name="presale" value={converToCurrency(preventaData.presale,"USD")}  />
+          <Input onChange={(e)=>handleInputsOnChange(e)} type="string" disabled={true} label="Private round" name="private_round" value={convertToCurrency(preventaData.private_round,"USD")}  />
+          <Input onChange={(e)=>handleInputsOnChange(e)} type="string" disabled={true} label="Presale" name="presale" value={convertToCurrency(preventaData.presale,"USD")}  />
           </div>
        <div>
        <Input onChange={(e)=>handleInputsOnChange(e)} type="number" label="Ico cost" name="ico_cost" value={preventaData.ico_cost}  />

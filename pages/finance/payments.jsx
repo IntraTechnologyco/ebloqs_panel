@@ -27,10 +27,15 @@ export default function Payments() {
   ]
   //filter payments
   const filterPayments=({target})=>{
-    target.name=="price"?setFilterByPrice(target.value):target.name==="customer"&&setFilterByCustomer(target.name)
-    console.log(target.name)
-
+    target.name=="price"?setFilterByPrice(target.value):target.name==="customer"&&setFilterByCustomer(target.value)
+    
+  
   }
+
+    useEffect(()=>{
+      setTrasactionData(trasactionData.filter((item)=>{return item.customer_name.includes(filterByCustomer??"")&&item.amount.includes(filterByPrice??"")}))
+    },[filterByPrice,filterByCustomer])
+  
   useEffect(()=>{
     getTransactionsByType(trasactionType)
     .then((res)=>{

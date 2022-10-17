@@ -8,7 +8,7 @@ import PointsAcumItem from '../../components/Cards/PointsAcumItem'
 import Link from 'next/link'
 import { changeUserStatus, getUserDataByUserId } from '../../ApiFuntions/user'
 import Loader from '../../components/Loader'
-import { converToCurrency } from '../../globalFunction/convertToCurrency'
+import { convertToCurrency } from '../../globalFunction/convertToCurrency'
 import RadioButton from '../../components/RadioButton'
 import CustomModal from '../../components/modals/CustomModal'
 import ButtonOutlinePurple from '../../components/Buttons/ButtonOutlinePurple'
@@ -112,8 +112,8 @@ export default function Customer() {
             } 
             <div className='grid grid-cols-4 gap-3'>
                 <CustomerBalances text="Invesment" value="0" /> 
-                <CustomerBalances text="Money Balance" value={converToCurrency(0)} /> 
-                <CustomerBalances text="EBL Balance" value={converToCurrency(userInfo.balanceData.data)} /> 
+                <CustomerBalances text="Money Balance" value={convertToCurrency(0)} /> 
+                <CustomerBalances text="EBL Balance" value={convertToCurrency(userInfo?.balanceData?.data)} /> 
                 <CustomerBalances text="Token ebloqs" value="0" /> 
             </div>
             {/** second seption */}
