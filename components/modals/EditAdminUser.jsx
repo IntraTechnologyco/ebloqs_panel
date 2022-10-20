@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import ButtonBlueGradient from '../Buttons/ButtonBlueGradient'
 import Input from '../Input'
-import Select from '../select'
+import Select from '../Select'
 import CustomModal from './CustomModal'
 
 export default function EditAdminUser({data,onCloseEditUser}) {

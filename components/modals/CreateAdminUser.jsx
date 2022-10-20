@@ -3,7 +3,7 @@ import ButtonBlueGradient from "../Buttons/ButtonBlueGradient";
 import CustomModal from "./CustomModal";
 import { registerNewAdminUser } from "../../ApiFuntions/admin";
 import { useState } from "react";
-import Select from "../select";
+import Select from "../Select";
 
 export default function CreateAdminUser({onCloseModal}) {
     //states
