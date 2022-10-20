@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getTransactionsByType } from '../../ApiFuntions/transactions'
 import Input from "../../components/Input"
+import Loader from '../../components/Loader'
 import PaginationHandler from '../../components/PaginationHandler'
 import PaymentsTable from '../../components/PaymentsTable'
 import Search from '../../components/Search'
@@ -10,6 +11,8 @@ export default function Payments() {
       //states
   const [trasactionType,setTrasactionType]=useState(1)
   const [trasactionData,setTrasactionData]=useState([])
+  const [trasactionDataFiltered,setTrasactionDataFiltered]=useState(null)
+  const [loading,setLoading]=useState(true)
   const [filterByPrice,setFilterByPrice]=useState("")
   const [filterByCustomer,setFilterByCustomer]=useState("")
     // number of items to show
@@ -26,39 +29,46 @@ export default function Payments() {
     }
   ]
   //filter payments
-  const filterPayments=({target})=>{
-    target.name=="price"?setFilterByPrice(target.value):target.name==="customer"&&setFilterByCustomer(target.value)
-    
-  
-  }
+  const handleFilterByName=({target})=>{
+    setFilterByCustomer(target.value)
+    setTrasactionDataFiltered(trasactionData.filter((item)=>{return item.customer_name.includes(target.value)&&item.amount.includes(filterByPrice)}))
 
-    useEffect(()=>{
-      setTrasactionData(trasactionData.filter((item)=>{return item.customer_name.includes(filterByCustomer??"")&&item.amount.includes(filterByPrice??"")}))
-    },[filterByPrice,filterByCustomer])
+  }
+    //filter payments
+    const handleFilterByPrice=({target})=>{
+      setFilterByPrice(target.value)
+      setTrasactionDataFiltered(trasactionData.filter((item)=>{return item.customer_name.includes(filterByCustomer)&&item.amount.includes(target.value)}))
+    }
+
+
   
   useEffect(()=>{
     getTransactionsByType(trasactionType)
     .then((res)=>{
       console.log(res)
       setTrasactionData(res.data.data)
+      setLoading(false)
     })
+    return ()=>{
+      setFilterByPrice("")
+      setFilterByCustomer("")
+      setTrasactionDataFiltered(null)
+    }
   },[trasactionType])
-  return (
+  return loading?
+  <div className="mx-auto flex justify-center items-center h-96"><Loader size={60}/></div>
+  : (
     <div>
       {/** payment mode */}
       <div className='grid grid-cols-3 gap-7 shadow border p-7 rounded'>
         <Select label="Payment mode" data={testArrayPaymentMode} value={trasactionType} onChange={(e)=>setTrasactionType(parseInt(e.target.value))} />
-        <Input label="Price" name="price" value={filterByPrice} onChange={(e)=>filterPayments(e)} />
-        <Input label="Customer" name="customer" value={filterByCustomer} onChange={(e)=>filterPayments(e)}/>
+        <Input label="Price" name="price" value={filterByPrice} onChange={(e)=>handleFilterByPrice(e)} />
+        <Input label="Customer" name="customer" value={filterByCustomer} onChange={(e)=>handleFilterByName(e)}/>
       </div>
       {/** payment table */}
       <div className='mt-10 border shadow p-7 rounded'>
         {/** table header option */}
-        <div className="flex justify-between items-center">
-          {/** seacr input*/}
-          <div className="w-96 h-8">
-            <Search placeholder="Search" />
-          </div>
+        <div className="flex justify-end items-center">
         {/** show columns number*/}
         <div className="flex w-36 items-center">
           <span>Show</span>
@@ -76,7 +86,7 @@ export default function Payments() {
           </select>
         </div>
       </div>
-      <PaymentsTable data={trasactionData}/>
+      <PaymentsTable data={trasactionDataFiltered?trasactionDataFiltered:trasactionData}/>
           {/** pagination handler */}
     <div className="mt-5">
       <PaginationHandler/>

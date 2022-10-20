@@ -1,12 +1,20 @@
 import React, { useState } from 'react'
 import ButtonDelete from './Buttons/ButtonDelete'
 import ButtonEdit from './Buttons/ButtonEdit'
-import SelectWithoutLabel from "../components/selects/SelectWithoutLabel"
 import SelectAdminStatus from './selects/SelectAdminStatus'
 import ConfirmModal from "../components/modals/ConfirmModal"
+import InputWithoutBordersWhenDisabled from './inputs/InputWithoutBordersWhenDisabled'
 
-export default function AdminTable() {
-    const [deleteCustomer,setDeleteCustomer]=useState({status:false,name:"",id:""})
+export default function AdminTable({data, setEditingUser, setDeleteCustomer}) {
+    
+    const updateStatus=(id,status)=>{
+       /*  updateUserRol({id,rol})
+        .then((res)=>{
+            console.log(res)
+        }) */
+        console.log(status)
+    }
+
   return (
         
     <table className='w-full text-center mt-5'>
@@ -20,99 +28,25 @@ export default function AdminTable() {
             <th>Name</th>
           </tr>
         </thead>
-        <tr className='h-12 border-t-2'>
-            <td className='flex items-center h-12 justify-between'>
-                <ButtonEdit/>
-                <ButtonDelete onClick={()=>setDeleteCustomer({status:true,name:"Guy Howard",id:"885"})}/>
-            </td>
-            <td>
-                <SelectAdminStatus/>
-            </td>
-            <td>
-                <SelectWithoutLabel data={[{id:1,name:"Read"},{id:2,name:"Write"},{id:3,name:"Update"}]} />
-            </td>
-            <td>5/27/15</td>
-            <td>alma.lawson@example.com</td>
-            <td>Guy Howard</td>
-          </tr>
-          <tr className='h-12 border-t-2'>
-            <td className='flex items-center h-12 justify-between'>
-                <ButtonEdit/>
-                <ButtonDelete onClick={()=>setDeleteCustomer({status:true,name:"Minster Min",id:"22125"})}/>
-            </td>
-            <td>
-                <SelectAdminStatus/>
-            </td>
-            <td>
-                <SelectWithoutLabel data={[{id:1,name:"Read"},{id:2,name:"Write"},{id:3,name:"Update"}]} />
-            </td>
-            <td>5/27/15</td>
-            <td>alma.lawson@example.com</td>
-            <td>Mister Min</td>
-          </tr>
-          <tr className='h-12 border-t-2'>
-            <td className='flex items-center h-12 justify-between'>
-                <ButtonEdit/>
-                <ButtonDelete onClick={()=>setDeleteCustomer({status:true,name:"Minster Min",id:"22125"})}/>
-            </td>
-            <td>
-                <SelectAdminStatus/>
-            </td>
-            <td>
-                <SelectWithoutLabel data={[{id:1,name:"Read"},{id:2,name:"Write"},{id:3,name:"Update"}]} />
-            </td>
-            <td>5/27/15</td>
-            <td>alma.lawson@example.com</td>
-            <td>Mister Min</td>
-          </tr>
-          <tr className='h-12 border-t-2'>
-            <td className='flex items-center h-12 justify-between'>
-                <ButtonEdit/>
-                <ButtonDelete onClick={()=>setDeleteCustomer({status:true,name:"Minster Min",id:"22125"})}/>
-            </td>
-            <td>
-                <SelectAdminStatus/>
-            </td>
-            <td>
-                <SelectWithoutLabel data={[{id:1,name:"Read"},{id:2,name:"Write"},{id:3,name:"Update"}]} />
-            </td>
-            <td>5/27/15</td>
-            <td>alma.lawson@example.com</td>
-            <td>Mister Min</td>
-          </tr>
-          <tr className='h-12 border-t-2'>
-            <td className='flex items-center h-12 justify-between'>
-                <ButtonEdit/>
-                <ButtonDelete onClick={()=>setDeleteCustomer({status:true,name:"Minster Min",id:"22125"})}/>
-            </td>
-            <td>
-                <SelectAdminStatus/>
-            </td>
-            <td>
-                <SelectWithoutLabel data={[{id:1,name:"Read"},{id:2,name:"Write"},{id:3,name:"Update"}]} />
-            </td>
-            <td>5/27/15</td>
-            <td>alma.lawson@example.com</td>
-            <td>Mister Min</td>
-          </tr>
-          <tr className='h-12 border-t-2'>
-            <td className='flex items-center h-12 justify-between'>
-                <ButtonEdit/>
-                <ButtonDelete onClick={()=>setDeleteCustomer({status:true,name:"Minster Min",id:"22125"})}/>
-            </td>
-            <td>
-                <SelectAdminStatus/>
-            </td>
-            <td>
-                <SelectWithoutLabel data={[{id:1,name:"Read"},{id:2,name:"Write"},{id:3,name:"Update"}]} />
-            </td>
-            <td>5/27/15</td>
-            <td>alma.lawson@example.com</td>
-            <td>Mister Min</td>
-          </tr>
-          {/*** popups seption */
-    deleteCustomer.status&&<ConfirmModal text={`Are you sure about delete the customer ${deleteCustomer.name}?`} onCancel={()=>setDeleteCustomer({status:false,name:"",id:""})} />
-}
+        {
+            data.length>0&&data.map((item,idx)=>{
+                return (
+                    <tr key={idx} className='h-12 border-t-2'>
+                        <td className='flex items-center h-12 justify-between'>
+                            <ButtonEdit onClick={()=>setEditingUser({status:true,data:item})} />
+                            <ButtonDelete onClick={()=>setDeleteCustomer({status:true,name:`${item.name} ${item.lastname}`,id:"885"})}/>
+                        </td>
+                        <td>
+                            <SelectAdminStatus name="status" value={item.status} onChange={(e)=>{updateStatus(item.id,e.target.value)}} />
+                        </td>
+                        <td>{item.rol==1?"Read":item.rol=="2"?"Write":item.rol=="3"&&"Update"}</td>
+                        <td>{item.create.substring(0,10)}</td>
+                        <td><InputWithoutBordersWhenDisabled className="text-center" disabled value={item.email}/></td>
+                        <td className='flex items-center'><InputWithoutBordersWhenDisabled className="text-center capitalize" disabled value={`${item.name} ${item.lastname}`}/></td>
+                    </tr>
+                )
+            })
+        }
     </table>
     
   )

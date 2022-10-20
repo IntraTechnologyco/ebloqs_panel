@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 
-export default function SelectAdminStatus() {
-    const [status,setStatus]=useState(0)
+export default function SelectAdminStatus({value, disabled, name, onChange}) {
   return (
     <div>
-        <select onChange={(e)=>setStatus(e.target.value)} name="status" id="status" className={`focus-visible:outline-none ${status==1?"bg-[#F7E8E7]":"bg-[#E7F7EA]"}  rounded h-8 px-1`}>
-            <option value={0}>Active</option>
-            <option value={1}>Inactive</option>
+        <select disabled={disabled} onChange={onChange} name={name} id="status" className={`focus-visible:outline-none ${value?"bg-[#E7F7EA]":"bg-[#F7E8E7]"} rounded h-8 px-1`}>
+            <option value={true}>Active</option>
+            <option value={false}>Inactive</option>
         </select>
     </div>
   )

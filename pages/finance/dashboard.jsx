@@ -5,6 +5,7 @@ import { getBalance } from '../../ApiFuntions/finance'
 import { getPayments } from '../../ApiFuntions/transactions'
 import CardDashboardWithSeeAllAndTitle from '../../components/Cards/CardDashboardWithSeeAllAndTitle'
 import CardDashboarLastWeek from '../../components/Cards/CardDashboarLastWeek'
+import Loader from '../../components/Loader'
 import RecentPaymentsTable from '../../components/RecentPaymentsTable'
 
 export default function Dashboard() {
@@ -12,6 +13,7 @@ export default function Dashboard() {
   const [custmersNumber,setCustumersNumber]=useState("0")
   const [allTransactions,setAllTransactions]=useState([])
   const [stateChanged,setStateChanged]=useState(false)
+  const [loading,setLoading]=useState(true)
 
   useEffect(()=>{
     getBalance()
@@ -30,9 +32,10 @@ export default function Dashboard() {
     .then((res)=>{
       console.log(res)
       setAllTransactions(res.data)
+      setLoading(false)
     })
   },[stateChanged])
-  return (
+  return loading? <div className="mx-auto flex justify-center items-center h-96"><Loader size={60}/></div>: (
     <div>
       <h2 className="text-2xl font-bold text-purple-dark">Dashboard</h2>
       {/** last week cards */}
@@ -87,7 +90,7 @@ export default function Dashboard() {
       <div className='grid grid-cols-2 mt-5'>
         {/** recent back payment */}
         <div className='mr-3 h-full'>
-        <CardDashboardWithSeeAllAndTitle text="Recent back payment">
+        <CardDashboardWithSeeAllAndTitle text="Recent bank payment">
             <Image src="/images/paymentsChart.png" width={496} height={43}/>
             <RecentPaymentsTable data={allTransactions.transactionsBank} setStateChanged={setStateChanged} stateChanged={stateChanged} selectStateOn={true} />
         </CardDashboardWithSeeAllAndTitle>
