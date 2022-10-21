@@ -1,20 +1,9 @@
-import React, { useState } from 'react'
 import ButtonDelete from './Buttons/ButtonDelete'
 import ButtonEdit from './Buttons/ButtonEdit'
 import SelectAdminStatus from './selects/SelectAdminStatus'
-import ConfirmModal from "../components/modals/ConfirmModal"
 import InputWithoutBordersWhenDisabled from './inputs/InputWithoutBordersWhenDisabled'
 
-export default function AdminTable({data, setEditingUser, setDeleteCustomer}) {
-    
-    const updateStatus=(id,status)=>{
-       /*  updateUserRol({id,rol})
-        .then((res)=>{
-            console.log(res)
-        }) */
-        console.log(status)
-    }
-
+export default function AdminTable({data, setEditingUser, setDeleteCustomer, handleChangeAdminUserStatus}) {
   return (
         
     <table className='w-full text-center mt-5'>
@@ -34,10 +23,10 @@ export default function AdminTable({data, setEditingUser, setDeleteCustomer}) {
                     <tr key={idx} className='h-12 border-t-2'>
                         <td className='flex items-center h-12 justify-between'>
                             <ButtonEdit onClick={()=>setEditingUser({status:true,data:item})} />
-                            <ButtonDelete onClick={()=>setDeleteCustomer({status:true,name:`${item.name} ${item.lastname}`,id:"885"})}/>
+                            <ButtonDelete onClick={()=>setDeleteCustomer({status:true,name:`${item.name} ${item.lastname}`,id:item.id})}/>
                         </td>
                         <td>
-                            <SelectAdminStatus name="status" value={item.status} onChange={(e)=>{updateStatus(item.id,e.target.value)}} />
+                            <SelectAdminStatus name="status" value={item.status} onChange={()=>{handleChangeAdminUserStatus(item.id)}} />
                         </td>
                         <td>{item.rol==1?"Read":item.rol=="2"?"Write":item.rol=="3"&&"Update"}</td>
                         <td>{item.create.substring(0,10)}</td>

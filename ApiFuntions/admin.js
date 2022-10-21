@@ -17,11 +17,27 @@ export const getAdminUsers=async()=>{
               }
       })
 }
-/** update rol */
-export const updateUserRol=async(data)=>{
-    return await axios.post(`${apiUrl}/admins/rol`,data,{
+/** UPDATE ADMIN USER */
+export const updateAdminUser=async(data)=>{
+    return await axios.post(`${apiUrl}/admins/update`,data,{
           headers: {
               Authorization : `Bearer ${localStorage.getItem("access_token")}`
               }
       })
+}
+/** DELETE ADMIN USER */
+export const deleteAdminUser=async(id)=>{
+      return await axios.post(`${apiUrl}/admins/delete`,{id},{
+            headers: {
+                Authorization : `Bearer ${localStorage.getItem("access_token")}`
+                }
+        })
+}
+/** CHANGE ADMIN USER STATUS */
+export const changeAdminUserStatus=async(id)=>{
+      return await axios.post(`${apiUrl}/admins/status`,{id},{
+            headers: {
+                Authorization : `Bearer ${localStorage.getItem("access_token")}`
+                }
+        })
 }

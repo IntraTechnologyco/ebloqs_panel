@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { updateAdminUser } from '../../ApiFuntions/admin'
 import ButtonBlueGradient from '../Buttons/ButtonBlueGradient'
 import Input from '../Input'
 import Select from '../Select'
@@ -12,11 +13,11 @@ export default function EditAdminUser({data,onCloseEditUser}) {
             ...userData,
             [target.name]:target.value
         })
-        onCloseEditUser()
     }
     //handle handle Submit update user
     const handleSubmitUpdateUser=(e)=>{
         e.preventDefault()
+        updateAdminUser(userData)
         console.log(userData)
         onCloseEditUser(true)
     }
@@ -29,7 +30,7 @@ export default function EditAdminUser({data,onCloseEditUser}) {
         <Input type="text" label="Name" name="name" value={userData.name} required onChange={(e)=>handleInputs(e)}/>
         <Input type="text" label="Lastname" name="lastname" value={userData.lastname} required onChange={(e)=>handleInputs(e)}/>
           <Input type="email" label="Email" name="email" value={userData.email} required onChange={(e)=>handleInputs(e)}/>
-          <Select label="Rol" name="rol" value={userData?.rol} data={[{type:1,name:"Read"},{type:2,name:"Write"},{type:3,name:"Update"}]} onChange={(e)=>handleInputs(e)}/>
+          <Select label="Rol" name="rol" value={userData?.rol??""} data={[{type:1,name:"Read"},{type:2,name:"Write"},{type:3,name:"Update"}]} onChange={(e)=>handleInputs(e)}/>
         <div className="col-span-2 mt-5">
           <ButtonBlueGradient text="Save"/>
         </div>

@@ -7,7 +7,7 @@ import Select from "../Select";
 
 export default function CreateAdminUser({onCloseModal}) {
     //states
-    const [newUserdData,setNewUserData]=useState({name:"",lastname:"",email:"",password:"",rol:1})
+    const [newUserdData,setNewUserData]=useState({name:"",lastname:"",email:"",password:"",rol:""})
     //handle inputs onChange
     const handleInputs=({target})=>{
         setNewUserData({
@@ -37,7 +37,7 @@ export default function CreateAdminUser({onCloseModal}) {
         </div>
         <div className="col-span-2 grid grid-cols-2 gap-3">
           <Input type="password" label="Password" name="password" required onChange={(e)=>handleInputs(e)}/>
-          <Select label="Rol" name="rol" value={newUserdData.rol} data={[{type:1,name:"Read"},{type:2,name:"Write"},{type:3,name:"Update"}]} onChange={(e)=>handleInputs(e)}/>
+          <Select label="Rol" name="rol" value={newUserdData.rol} data={[{type:"",name:"Seleccionar"},{type:1,name:"Read"},{type:2,name:"Write"},{type:3,name:"Update"}]} onChange={(e)=>handleInputs(e)}/>
         </div>
         <div className="col-span-2 mt-5">
           <ButtonBlueGradient text="Register"/>
