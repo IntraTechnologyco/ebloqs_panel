@@ -44,7 +44,7 @@ export default function Customer() {
         <div className='flex'>
              
         <div className='w-[200px] overflow-y-auto bg-[#F9F9FA] fixed -ml-10 -mb-6 top-10 h-screen text-purple-dark p-5 border-r'>
-        <h2 className="text-lg font-bold text-purple-dark mb-3 text-center capitalize">{userInfo.personalData?.name} {userInfo.personalData.lastname}</h2>
+        <h2 className="text-lg font-bold text-purple-dark mb-3 text-center capitalize">{userInfo.personalData?.name} {userInfo.personalData?.lastname}</h2>
         <div className='flex justify-center relative'>
         <Image src="/images/test4.png" width={120} height={120} className="rounded-full" />
         {userInfo.primaryData[0]?.verify&&<div className='absolute bottom-0 right-6'>
@@ -58,7 +58,7 @@ export default function Customer() {
                 <div className='min-w-[24px]'>
                 <Image src="/images/emailicon.png" width={24} height={24}/>
                 </div>
-                <p className='ml-2 text-ellipsis overflow-hidden hover:overflow-visible'>{userInfo.primaryData[0]?.email}</p>
+                <p className='ml-2 text-ellipsis overflow-hidden hover:overflow-visible'>{userInfo.primaryData[0]?.email??""}</p>
             </div>
             <div className='flex items-center my-1'>
                 <Image src="/images/phoneicon.png" width={24} height={24}/>
@@ -115,7 +115,7 @@ export default function Customer() {
             <div className='grid grid-cols-4 gap-3'>
                 <CustomerBalances text="Invesment" value="0" /> 
                 <CustomerBalances text="Money Balance" value={convertToCurrency(0)} /> 
-                <CustomerBalances text="EBL Balance" value={convertToCurrency(userInfo?.balanceData?.data)} /> 
+                <CustomerBalances text="EBL Balance" value={convertToCurrency(userInfo.balanceData?.data)} /> 
                 <CustomerBalances text="Token ebloqs" value="0" /> 
             </div>
             {/** second seption */}

@@ -1,5 +1,5 @@
 import React from 'react'
-import CardProject from '../components/Cards/CardProject'
+import CardProject from '../../components/Cards/CardProject'
 
 export default function Projects() {
   return (

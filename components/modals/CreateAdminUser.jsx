@@ -29,16 +29,10 @@ export default function CreateAdminUser({onCloseModal}) {
         <h2 className="text-center mb-6 text-2xl col-span-2">
           Create new user
         </h2>
-
-        <Input type="text" label="Name" name="name" required onChange={(e)=>handleInputs(e)}/>
-        <Input type="text" label="Lastname" name="lastname" required onChange={(e)=>handleInputs(e)}/>
-        <div className="col-span-2">
+          <Input type="text" label="Name" name="name" required onChange={(e)=>handleInputs(e)}/>
+          <Input type="text" label="Lastname" name="lastname" required onChange={(e)=>handleInputs(e)}/>
           <Input type="email" label="Email" name="email" required onChange={(e)=>handleInputs(e)}/>
-        </div>
-        <div className="col-span-2 grid grid-cols-2 gap-3">
           <Input type="password" label="Password" name="password" required onChange={(e)=>handleInputs(e)}/>
-          <Select label="Rol" name="rol" value={newUserdData.rol} data={[{type:"",name:"Seleccionar"},{type:1,name:"Read"},{type:2,name:"Write"},{type:3,name:"Update"}]} onChange={(e)=>handleInputs(e)}/>
-        </div>
         <div className="col-span-2 mt-5">
           <ButtonBlueGradient text="Register"/>
         </div>
