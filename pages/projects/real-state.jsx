@@ -3,6 +3,7 @@ import React from 'react'
 import Input from '../../components/Input'
 import Select from '../../components/Select'
 import UploadImage from '../../components/UploadImage'
+import ButtonBlueGradient from "../../components/Buttons/ButtonBlueGradient"
 
 export default function RealState() {
     const testCountries=[
@@ -74,9 +75,6 @@ export default function RealState() {
                     <Input label="Edificio superficie (m2)" name="buildSuperficie" onChange={(e)=>handleOnChangeInputs(e)} required/>
                     <Input label="No. departamentos" name="nApartamentos" onChange={(e)=>handleOnChangeInputs(e)} required/>
                     <Input label="Número amenidades" name="nAmenidades" onChange={(e)=>handleOnChangeInputs(e)} required/>
-                    <Input label="Otros 1" name="other1" onChange={(e)=>handleOnChangeInputs(e)}/>
-                    <Input label="Otros 1" name="other2" onChange={(e)=>handleOnChangeInputs(e)}/>
-                    <Input label="Otros 1" name="other3" onChange={(e)=>handleOnChangeInputs(e)}/>
                </div>
                <div className='grid grid-cols-1 gap-3'>
                <div className='bg-purple-semi-light rounded-md px-5 py-1 flex items-center'>
@@ -86,9 +84,6 @@ export default function RealState() {
                     <Input label="Fideicomiso" name="fideicomiso" onChange={(e)=>handleOnChangeInputs(e)} required/>
                     <Input label="Planos aprobados" name="planosAprobados" onChange={(e)=>handleOnChangeInputs(e)} required/>
                     <Input label="Lic. de construcción" name="licConstraccion" onChange={(e)=>handleOnChangeInputs(e)} required/>
-                    <Input label="Otros 1" name="other1" onChange={(e)=>handleOnChangeInputs(e)}/>
-                    <Input label="Otros 2" name="other2" onChange={(e)=>handleOnChangeInputs(e)}/>
-                    <Input label="Otros 3" name="other3" onChange={(e)=>handleOnChangeInputs(e)}/>
                </div>
             </div>
         </div>
@@ -104,8 +99,6 @@ export default function RealState() {
                     <Input label="Renting anual" name="currentRenting" onChange={(e)=>handleOnChangeInputs(e)} required/>
                     <Input label="Gasto anual" name="yearSpend" onChange={(e)=>handleOnChangeInputs(e)} required/>
                     <Input label="Beneficio neto anual" name="yearNeto" onChange={(e)=>handleOnChangeInputs(e)} required/>
-                    <Input label="Otros 1" name="other1" onChange={(e)=>handleOnChangeInputs(e)}/>
-                    <Input label="Otros 2" name="other2" onChange={(e)=>handleOnChangeInputs(e)}/>
                </div>
                <div className='grid grid-cols-1 gap-3'>
                <div className='bg-purple-semi-light rounded-md px-5 py-1 flex items-center'>
@@ -115,10 +108,17 @@ export default function RealState() {
                     <Input label="Interés construccion (1 año)" name="interesAnualContraction" onChange={(e)=>handleOnChangeInputs(e)} required/>
                     <Input label="Renting neto (2 años)" name="rentingNeto2Years" onChange={(e)=>handleOnChangeInputs(e)} required/>
                     <Input label="Plusvalía (3 años)" name="plusvalia" onChange={(e)=>handleOnChangeInputs(e)} required/>
-                    <Input label="Otros 1" name="other1" onChange={(e)=>handleOnChangeInputs(e)}/>
-                    <Input label="Otros 2" name="other2" onChange={(e)=>handleOnChangeInputs(e)}/>
                </div>
             </div>
+        </div>
+        {/**Datos del constructor */}
+        <div className='mt-7'>
+            <h2 className='text-xl text-purple-dark font-bold mb-5'>Datos del constructor</h2>
+            <p>Escribe algunos datos sobre el constructor</p>
+            <textarea className='w-full  border rounded p-5 focus-visible:outline-none'/>
+        </div>
+        <div className='w-64 mx-auto my-5'>
+        <ButtonBlueGradient text="Publicar" />
         </div>
         
     </div>

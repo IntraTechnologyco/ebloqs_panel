@@ -46,19 +46,19 @@ export default function Customer() {
         <div className='w-[200px] overflow-y-auto bg-[#F9F9FA] fixed -ml-10 -mb-6 top-10 h-screen text-purple-dark p-5 border-r'>
         <h2 className="text-lg font-bold text-purple-dark mb-3 text-center capitalize">{userInfo.personalData?.name} {userInfo.personalData?.lastname}</h2>
         <div className='flex justify-center relative'>
-        <Image src={`/images/mascota/${userInfo.primaryData[0]?.avatar}`} width={120} height={120} className="rounded-full" />
-        {userInfo.primaryData[0]?.verify&&<div className='absolute bottom-0 right-6'>
+        <Image src={`/images/mascota/${userInfo.primaryData&&userInfo.primaryData[0]?.avatar}`} width={120} height={120} className="rounded-full" />
+        {userInfo.primaryData&&userInfo.primaryData[0]?.verify&&<div className='absolute bottom-0 right-6'>
         <Image src="/images/verify.svg" width={25} height={25} className="rounded-full" />
         </div>}
         </div>
         <p className='mt-3 text-blue-semi-dark font-bold text-sm text-center'>ID: {userInfo.personalData?.dniNumber}</p>
-        <p className='font-semibold text-sm text-center'>Nº De referencia <br />{userInfo.primaryData[0]?.idRef}</p>
+        <p className='font-semibold text-sm text-center'>Nº De referencia <br />{userInfo.primaryData&&userInfo.primaryData[0]?.idRef}</p>
         <div className='text-xs mt-5'>
             <div className='flex items-center my-1 text-ellipsis'>
                 <div className='min-w-[24px]'>
                 <Image src="/images/emailicon.png" width={24} height={24}/>
                 </div>
-                <p className='ml-2 text-ellipsis overflow-hidden hover:overflow-visible'>{userInfo.primaryData[0]?.email??""}</p>
+                <p className='ml-2 text-ellipsis overflow-hidden hover:overflow-visible'>{userInfo.primaryData?userInfo.primaryData[0]?.email:""}</p>
             </div>
             <div className='flex items-center my-1'>
                 <Image src="/images/phoneicon.png" width={24} height={24}/>

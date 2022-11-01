@@ -27,7 +27,6 @@ export default function Tokens() {
     .then((res)=>{
       setPreventadata(res)
       setIcoCost(res.ico_cost)
-      console.log(res)
     })
     getTotalSupplyTokens()
     .then((res)=>{
