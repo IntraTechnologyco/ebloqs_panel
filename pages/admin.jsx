@@ -52,8 +52,7 @@ export default function Authentication() {
   useEffect(() => {
     getAdminUsers()
     .then((res)=>{
-      setUsers(res.data.users)
-      console.log(res)
+      setUsers(res.data.admins)
     })
   },[refetch])
   
@@ -71,22 +70,10 @@ export default function Authentication() {
         <div className='w-96'>
         <Search placeholder="Search by name" onChange={(e)=>filterByname(e.target.value)} />
         </div>
-        <div className='w-96 flex justify-end items-center'>
-            <span>Show</span>
-            <select className='border p-2 rounded ml-2 focus-visible:outline-none' onChange={(e)=>setHandlerPagination(e.target.value)} name="show" id="show">
-                <option value={10}>10</option>
-                <option value={20}>20</option>
-                <option value={30}>30</option>
-                <option value={40}>40</option>
-            </select>
-        </div>
         </div>
      <AdminTable data={usersFiltered??users} setEditingUser={setEditingUser} setDeleteCustomer={setDeleteCustomer} handleChangeAdminUserStatus={handleChangeAdminUserStatus}/>
      </div>
-      {/** pagination handler */}
-    <div className="mt-5">
-      <PaginationHandler maxRows={pages} />
-      </div>
+
       {/** modals */
       newUser&&<CreateAdminUser onCloseModal={handleOnCloseAddNewUser}/>
     }

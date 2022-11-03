@@ -46,7 +46,7 @@ export default function Customer() {
         <div className='w-[200px] overflow-y-auto bg-[#F9F9FA] fixed -ml-10 -mb-6 top-10 h-screen text-purple-dark p-5 border-r'>
         <h2 className="text-lg font-bold text-purple-dark mb-3 text-center capitalize">{userInfo.personalData?.name} {userInfo.personalData?.lastname}</h2>
         <div className='flex justify-center relative'>
-        <Image src={`/images/mascota/${userInfo.primaryData&&userInfo.primaryData[0]?.avatar}`} width={120} height={120} className="rounded-full" />
+        <Image src={`/${userInfo.primaryData&&userInfo.primaryData[0]?.avatar}`} width={120} height={120} className="rounded-full" />
         {userInfo.primaryData&&userInfo.primaryData[0]?.verify&&<div className='absolute bottom-0 right-6'>
         <Image src="/images/verify.svg" width={25} height={25} className="rounded-full" />
         </div>}
