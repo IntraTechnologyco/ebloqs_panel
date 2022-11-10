@@ -7,7 +7,7 @@ import Loader from "../../components/Loader"
 export default function Customer() {
     const [searchTyped,setSearchTyped]=useState("")
     const [customers,setCustomers]=useState([])
-    const [allCustomers,setAllCustomers]=useState([])
+    const [allCustomers,setAllCustomers]=useState("")
 //useState
 
     useEffect(()=>{
@@ -33,8 +33,11 @@ export default function Customer() {
       </div>
       {
       /** table default */
-      allCustomers.length>0?!searchTyped&&
+      allCustomers?!searchTyped&&
       <div className="shadow-lg border p-5">
+        {
+          allCustomers.length===0&&<p className="text-center py-10 animate-pulse text-purple-dark">No se encontraron clientes</p>
+        }
         {
           allCustomers.map((item,idx)=>{
             return(

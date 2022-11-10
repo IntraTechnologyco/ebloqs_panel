@@ -1,9 +1,9 @@
 import axios from "axios"
-import {apiUrl} from "../varGlobals"
+import {apiUrl, apiUrlBlockchain} from "../varGlobals"
 /** get totalSupplyTokens */
 export const getTotalSupplyTokens=()=>{
 
-    const response = axios.post(`${apiUrl}/wallet/totalSupply`,null,{
+    const response = axios.get(`${apiUrlBlockchain}/token/Available`,{
         headers: {
             Authorization : `Bearer ${localStorage.getItem("access_token")}`
             }

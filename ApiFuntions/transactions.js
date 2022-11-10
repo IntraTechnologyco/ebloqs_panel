@@ -37,7 +37,7 @@ export const updateTransactionStatus=async(data)=>{
 
 //PAID OUT TRANSFER TO BLOCKCHAIN
 export const confirmBlockchainTransfer=async(to,amount)=>{
-    const response = await axios.post(`${apiUrlBlockchain}/Transfer?to=${to}&amount=${amount}`,null,{
+    const response = await axios.post(`${apiUrlBlockchain}/token/Transfer?to=${to}&amount=${amount}`,null,{
         headers: {
             Authorization : `Bearer ${localStorage.getItem("access_token")}`
         }})
