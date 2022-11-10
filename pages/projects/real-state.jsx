@@ -108,7 +108,7 @@ export default function RealState() {
     useEffect(()=>{
         const realData=JSON.parse(localStorage.getItem("rSD"))
         setRealStateData(realData ?? {})
-        setContratCreated(!realData ? true : false)
+        setContratCreated(realData ? true : false)
     },[])
 
   return (
