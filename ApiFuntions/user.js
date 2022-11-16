@@ -37,3 +37,11 @@ export const changeUserStatus=(data)=>{
         })
     });
 }
+/** GET TOTAL USERS */
+export const getTotalUsers=()=>{
+       return axios.get(`${apiUrl}/user/count/customers`,{
+            headers: {
+                Authorization : `Bearer ${localStorage.getItem("access_token")}`
+                }
+        })
+}

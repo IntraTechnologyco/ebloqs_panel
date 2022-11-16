@@ -1,29 +1,39 @@
 import Image from 'next/image'
 import React, { useState,useEffect } from 'react'
-import { getAllUsersWithoutOrder } from '../../ApiFuntions/customers'
-import { getBalance } from '../../ApiFuntions/finance'
-import { getPayments } from '../../ApiFuntions/transactions'
+import { getAvailableTokens, getTotalSupplyTokens } from '../../ApiFuntions/tokens'
+import { getPayments, getTransactionBalances } from '../../ApiFuntions/transactions'
+import { getTotalUsers } from '../../ApiFuntions/user'
 import CardDashboardWithSeeAllAndTitle from '../../components/Cards/CardDashboardWithSeeAllAndTitle'
 import CardDashboarLastWeek from '../../components/Cards/CardDashboarLastWeek'
 import Loader from '../../components/Loader'
 import RecentPaymentsTable from '../../components/RecentPaymentsTable'
+import {convertToCurrency} from "../../globalFunction/convertToCurrency"
 
 export default function Dashboard() {
-  const [eblBalance,setEblBalance]=useState("0")
+  const [supply,setSupply]=useState("")
+  const [available,setAvailable]=useState("")
+  const [dollarBalance,setDollarBalance]=useState("0")
   const [custmersNumber,setCustumersNumber]=useState("0")
   const [allTransactions,setAllTransactions]=useState([])
   const [stateChanged,setStateChanged]=useState(false)
   const [loading,setLoading]=useState(true)
 
   useEffect(()=>{
-    getBalance()
+    getTransactionBalances()
     .then((res)=>{
-      setEblBalance(res.data.balance)
+      setDollarBalance(res.data.total_Balance)
       console.log(res.data)
     })
 
-    getAllUsersWithoutOrder().then((res)=>{
-      setCustumersNumber(res.data.length)
+    getTotalUsers().then((res)=>{
+      setCustumersNumber(res.data.totalCustomers)
+    })
+    
+    getTotalSupplyTokens().then((res)=>{
+      setSupply(res.data.data)
+    })
+    getAvailableTokens().then((res)=>{
+      setAvailable(res.data.data)
     })
    
   },[])
@@ -41,9 +51,9 @@ export default function Dashboard() {
       {/** last week cards */}
       <div className='grid grid-cols-4 gap-5 mt-7'>
       <CardDashboarLastWeek  text="Tokens fungible" icon="/images/docpurpleicon.png" value="0" progressPercent="0" lastWeekPercent="0.00" up={true} />
-      <CardDashboarLastWeek  text="EBL" icon="/images/docpurpleicon.png" value={eblBalance} progressPercent="0" lastWeekPercent="0.00" up={true} />
+      <CardDashboarLastWeek  text="EBL" icon="/images/docpurpleicon.png" value={convertToCurrency(BigInt(supply)-BigInt(available)).toString()} progressPercent="0" lastWeekPercent="0.00" up={true} />
       <CardDashboarLastWeek  text="Customers" icon="/images/docpurpleicon.png" value={custmersNumber} progressPercent="0" lastWeekPercent="0.00" up={true} />
-      <CardDashboarLastWeek  text="Balance" icon="/images/docpurpleicon.png" value={eblBalance*0.75} progressPercent="0" lastWeekPercent="0.00" up={true} />
+      <CardDashboarLastWeek  text="Balance" icon="/images/docpurpleicon.png" value={convertToCurrency(dollarBalance)} progressPercent="0" lastWeekPercent="0.00" up={true} />
       </div>
       {/** tokens analytics and invesments analitycs seption */}
       <div className='flex mt-5'>

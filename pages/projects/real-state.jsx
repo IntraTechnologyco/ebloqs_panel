@@ -52,7 +52,7 @@ export default function RealState() {
     //handle create smart contrat
     const handlCreateContrat = (e) => {
         setLoading(true)
-        localStorage.setItem("rSD",JSON.stringify(realStateData))
+       
         e.preventDefault()
         const meta = new Blob([metadata], { type: "application/json"});
         const contratData= new FormData
@@ -63,6 +63,7 @@ export default function RealState() {
         contratData.append("Metadata", meta)
         createContrat(contratData).then((res)=>{
             console.log(res)
+            localStorage.setItem("rSD",JSON.stringify(realStateData))
             setContratCreated(true)
             setLoading(false)
         }).catch((err)=>{
@@ -135,11 +136,15 @@ export default function RealState() {
             <h2 className='text-xl text-purple-dark font-bold mb-5'>Datos del producto</h2>
             <div className='grid grid-cols-3 gap-5'>
                 <Input label="Nombre" name="name" value={realStateData.name} onChange={(e)=>handleOnChangeInputs(e)} disabled={contratCreated} required/>
-                <Input type="number" label="Precio Token" name="token_price" value={realStateData.token_price} onChange={(e)=>handleOnChangeInputs(e)} disabled={contratCreated} />
-                <Input label="Dirección" name="address" value={realStateData.address} onChange={(e)=>handleOnChangeInputs(e)} disabled={contratCreated}/>
-                <Input type="number" label="Tokens emitidos" value={realStateData.tokens_emitted} name="tokens_emitted" onChange={(e)=>handleOnChangeInputs(e)} disabled={contratCreated}/>
                 <Input type="number" label="Precio edificio" value={realStateData.building_price} name="building_price" onChange={(e)=>handleOnChangeInputs(e)} disabled={contratCreated}/>
-                <Input type="number" label="Tokens disponibles" name="tokens_available" value={realStateData.tokens_available} onChange={(e)=>handleOnChangeInputs(e)} disabled={contratCreated}/>
+                <Input type="number" label="Precio Token" name="token_price" value={realStateData.token_price} onChange={(e)=>handleOnChangeInputs(e)} disabled={contratCreated} />
+                <Input type="number" label="Tokens emitidos" value={(realStateData.tokens_emitted)} name="tokens_emitted" onChange={(e)=>handleOnChangeInputs(e)} disabled={false}/>
+                <Input type="number" label="Tokens disponibles" name="tokens_available" value={(realStateData.building_price/realStateData.token_price)} onChange={(e)=>handleOnChangeInputs(e)} disabled={true}/>
+                <Input label="Dirección" name="address" value={realStateData.address} onChange={(e)=>handleOnChangeInputs(e)} disabled={contratCreated}/>
+                
+                
+                
+                
             </div>
         </div>
         {/** Algunos detalles */}
