@@ -5,7 +5,6 @@ export const getTotalSupplyTokens=()=>{
 
     const response = axios.get(`${apiUrlBlockchain}/token/TotalSupply`,{
         headers: {
-            Authorization : `Bearer ${localStorage.getItem("access_token")}`,
             referrerPolicy: "unsafe_url"
             }
     })
@@ -16,7 +15,6 @@ export const getAvailableTokens=()=>{
 
     const response = axios.get(`${apiUrlBlockchain}/token/Available`,{
         headers: {
-            Authorization : `Bearer ${localStorage.getItem("access_token")}`,
             referrerPolicy: "unsafe_url"
             }
     })
