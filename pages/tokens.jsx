@@ -32,6 +32,7 @@ export default function Tokens() {
     .then((res)=>{
       setPreventadata(res)
       setIcoCost(res.ico_cost)
+      console.log(res)
     })
     getAvailableTokens()
     .then((res)=>{
@@ -58,7 +59,7 @@ export default function Tokens() {
         presale:0 */
        ebl_balance:eblBalance.toString(),
       ico_cost:preventaData.ico_cost,
-      private_round:preventaData.private_round<=0?(parseInt(eblBalance)*icoCost).toString():preventaData.private_round,
+      private_round:preventaData.private_round<=0?(((parseInt(eblBalance)-preventaData.ebl_balance) *icoCost).toString()):preventaData.private_round,
       presale:preventaData.private_round>0?(((parseInt(eblBalance)-preventaData.ebl_balance)*icoCost)).toString():preventaData.presale,
       presale_status:presale_status??preventaData.presale_status
     })
@@ -108,7 +109,7 @@ export default function Tokens() {
         </div>
         {/** balances */}
         <div className='grid grid-cols-2 gap-10 mt-10'>
-        <Input  onChange={(e)=>handleInputsOnChange(e)} type="string" disabled={true} label="EBL Balance" name="ebl_balance" value={convertToCurrency(parseInt(eblBalance)-preventaData.ebl_balance)}/>
+        <Input  onChange={(e)=>handleInputsOnChange(e)} type="string" disabled={true} label="EBL Balance" name="ebl_balance" value={convertToCurrency(parseInt(eblBalance))}/>
         <Input onChange={(e)=>handleInputsOnChange(e)} type="string" disabled={true} label="Dollar Balance" name="dollar_balance" value={convertToCurrency(((Number(eblBalance)-preventaData.ebl_balance)*icoCost),"USD")} />
         </div>
         <div className='grid grid-cols-2 gap-10'>
