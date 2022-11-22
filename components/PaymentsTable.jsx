@@ -1,7 +1,7 @@
 import Image from "next/image";
 import {convertToCurrency} from "../globalFunction/convertToCurrency"
 
-export default function PaymentsTable({data}) {;
+export default function PaymentsTable({data, pagination}) {;
   //hide payment method except last four
   const convertMethodPaymentPrivate=(value)=>{
     const converted = value.substring(0,value.length-4).replace(/[0-9]/gi,"•")+value.substring(value.length-4)
@@ -22,7 +22,7 @@ export default function PaymentsTable({data}) {;
         </thead>
         <tbody>
           {
-            data.map((item,idx)=>{
+            data.slice(pagination.from, pagination.to).map((item,idx)=>{
               return (
                 <tr key={idx} className="text-center border-b h-12">
                   <td className="text-blue-semi-dark flex items-center justify-center my-auto h-12">

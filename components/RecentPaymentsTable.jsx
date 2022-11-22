@@ -51,7 +51,7 @@ export default function RecentPaymentsTable({data,setStateChanged,stateChanged,s
         </thead>
         <tbody>
             {
-                data?.map((transaction,idx)=>{
+                data.slice(0,10)?.map((transaction,idx)=>{
                 return(
                     <tr key={idx} className='text-center border-b h-12 text-xs'>
                         <td>  
