@@ -1,18 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { getTokenData } from '../ApiFuntions/tokens'
 import { confirmBlockchainTransfer, updateTransactionStatus } from '../ApiFuntions/transactions'
 import ConfirmModal from './modals/ConfirmModal'
 import SelectOfStatesWithColors from './SelectOfStatesWithColors'
 
 export default function RecentPaymentsTable({data,setStateChanged,stateChanged,selectStateOn}) {
     const [stateSelect,setStateSelect]=useState(null)
+    const [icoCost,setIcoCost]=useState(0)
     const [confirmModalData,setConfirmModalData]=useState({state:false, text:"", loading:false})
     const [transactionData,setTransactionData]=useState({id:null,status:null})
     
     const handleUpdateState=({target}, trasactionId, amount ,to)=>{
         setConfirmModalData({state:true,text:`Esta seguro que quiere cambiar el estado de la transaction ${trasactionId} de`})
-        setTransactionData({ id:trasactionId, status:parseInt(target.value), amount:amount, to:to })
+        setTransactionData({ id:trasactionId, status:parseInt(target.value), amount:amount/icoCost, to:to })
         setStateSelect(target.value)
-        console.log(to)
       }
       const handleHanleUpdateStatus=()=>{
         
@@ -36,6 +37,11 @@ export default function RecentPaymentsTable({data,setStateChanged,stateChanged,s
         })
 
       }
+      useEffect(()=>{
+        getTokenData().then((res)=>{
+          setIcoCost(Number(res.ico_cost))
+         },[])
+      })
   return (
     <table className='w-full mt-10 text-purple-dark'>
       {

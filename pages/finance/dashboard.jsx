@@ -35,6 +35,7 @@ export default function Dashboard() {
     getAvailableTokens().then((res)=>{
       setAvailable(res.data.data)
     })
+
    
   },[])
   useEffect(()=>{
