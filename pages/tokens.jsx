@@ -38,7 +38,7 @@ export default function Tokens() {
     .then((res)=>{
       setAvailableTokens(res.data.data)
       setLoading(false)
-      setEblBalance(1000000000000000000000000n-BigInt(res.data.data))
+      setEblBalance(1000000000000000000000000000n-BigInt(res.data.data))
     })
     getTotalSupplyTokens()
   },[refetch])
@@ -47,6 +47,7 @@ export default function Tokens() {
       getTotalSupplyTokens()
       .then((res)=>{
         setTotalSupply(res.data.data)
+        console.log(res.data)
       })
     },[])
 // handle update ico cost
