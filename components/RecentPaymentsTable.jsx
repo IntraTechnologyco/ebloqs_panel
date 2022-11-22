@@ -12,7 +12,7 @@ export default function RecentPaymentsTable({data,setStateChanged,stateChanged,s
     
     const handleUpdateState=({target}, trasactionId, amount ,to)=>{
         setConfirmModalData({state:true,text:`Esta seguro que quiere cambiar el estado de la transaction ${trasactionId} de`})
-        setTransactionData({ id:trasactionId, status:parseInt(target.value), amount:amount/icoCost, to:to })
+        setTransactionData({ id:trasactionId, status:parseInt(target.value), amount:parseInt(amount/icoCost), to:to })
         setStateSelect(target.value)
       }
       const handleHanleUpdateStatus=()=>{
