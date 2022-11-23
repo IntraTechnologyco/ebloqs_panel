@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getTokenData } from '../ApiFuntions/tokens'
 import { confirmBlockchainTransfer, updateTransactionStatus } from '../ApiFuntions/transactions'
+import { convertToCurrency } from '../globalFunction/convertToCurrency'
 import ConfirmModal from './modals/ConfirmModal'
 import SelectOfStatesWithColors from './SelectOfStatesWithColors'
 
@@ -57,7 +58,7 @@ export default function RecentPaymentsTable({data,setStateChanged,stateChanged,s
         </thead>
         <tbody>
             {
-                data.slice(0,10)?.map((transaction,idx)=>{
+                data?.map((transaction,idx)=>{
                 return(
                     <tr key={idx} className='text-center border-b h-12 text-xs'>
                         <td>  
@@ -69,7 +70,7 @@ export default function RecentPaymentsTable({data,setStateChanged,stateChanged,s
                           }
                         </td>
                         <td> {transaction.create.substring(0,10)} </td>
-                        <td>${transaction.amount} </td>
+                        <td>{convertToCurrency(transaction.amount,"USD")} </td>
                         <td>{transaction.customer_name}</td>
                     </tr>
                 )

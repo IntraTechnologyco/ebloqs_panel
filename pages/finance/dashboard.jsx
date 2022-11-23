@@ -35,8 +35,6 @@ export default function Dashboard() {
     getAvailableTokens().then((res)=>{
       setAvailable(res.data.data)
     })
-
-   
   },[])
   useEffect(()=>{
     getPayments()
@@ -54,7 +52,7 @@ export default function Dashboard() {
       <CardDashboarLastWeek  text="Tokens fungible" icon="/images/docpurpleicon.png" value="0" progressPercent="0" lastWeekPercent="0.00" up={true} />
       <CardDashboarLastWeek  text="EBL" icon="/images/docpurpleicon.png" value={convertToCurrency(BigInt(supply)-BigInt(available)).toString()} progressPercent="0" lastWeekPercent="0.00" up={true} />
       <CardDashboarLastWeek  text="Customers" icon="/images/docpurpleicon.png" value={custmersNumber} progressPercent="0" lastWeekPercent="0.00" up={true} />
-      <CardDashboarLastWeek  text="Balance" icon="/images/docpurpleicon.png" value={convertToCurrency(dollarBalance)} progressPercent="0" lastWeekPercent="0.00" up={true} />
+      <CardDashboarLastWeek  text="Balance" icon="/images/docpurpleicon.png" value={convertToCurrency(dollarBalance,"USD")} progressPercent="0" lastWeekPercent="0.00" up={true} />
       </div>
       {/** tokens analytics and invesments analitycs seption */}
       <div className='flex mt-5'>

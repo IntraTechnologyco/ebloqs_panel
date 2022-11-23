@@ -88,11 +88,10 @@ export default function RealState() {
     //handle create smart contrat
     const handlCreateContrat = (e) => {
          setLoading(true)
-       
         e.preventDefault()
-        const emitedSupply = BigInt((realStateData.building_price/realStateData.token_price)**10).toString()
+        const emitedSupply = ((realStateData.building_price/realStateData.token_price) * (10**18)).toLocaleString('fullwide', { useGrouping: false })
         console.log(emitedSupply)
-        const meta = new Blob([metadata], { type: "application/json"});
+         const meta = new Blob([metadata], { type: "application/json"});
         const contratData= new FormData
         contratData.append("Name", realStateData.name)
         contratData.append("Symbol", "EBL")
@@ -108,13 +107,13 @@ export default function RealState() {
         }).catch((err)=>{
             console.log(err)
             setLoading(false)
-        }) 
+        })  
     }
 
     //handle public a project
     const handlePublicRealState=()=>{
         setLoading(true)
-        const emitedSupply = BigInt((realStateData.building_price/realStateData.token_price)**10).toString()
+        const emitedSupply = ((realStateData.building_price/realStateData.token_price) * (10**18)).toLocaleString('fullwide', { useGrouping: false })
         const realFormData= new FormData
         realFormData.append("name", realStateData.name)
         realFormData.append("country", realStateData.country)
