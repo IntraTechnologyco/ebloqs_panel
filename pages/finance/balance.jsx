@@ -21,9 +21,9 @@ export default function Balance() {
     <div>
       <LinkButtonBack text="Regresar" href="/finance"/>
       <div className='w-96 mt-10'>
-      <CardLabelWithAmount text="Credit/debit card" amount={convertToCurrency(balance.balance_Bank,"usd")} />
+      <CardLabelWithAmount text="Credit/debit card" amount={convertToCurrency(balance.balance_Card,"usd")} />
       <br />
-      <CardLabelWithAmount text="Bank" amount={convertToCurrency(balance.balance_Card,"usd")} />
+      <CardLabelWithAmount text="Bank" amount={convertToCurrency(balance.balance_Bank,"usd")} />
       <br />
       <CardLabelWithAmount text="Balance" amount={convertToCurrency(balance.total_Balance,"usd")} />
       </div>
