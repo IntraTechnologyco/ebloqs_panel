@@ -13,7 +13,7 @@ export default function UploadImage({ name, value, onChange, disabled }) {
         <Image src="/images/addimg.png" width={34} height={34}/>
         <p>Agregar foto</p>
       </div>}
-      <input ref={fileRef} onChange={onChange} name={name} files={value} type="file" accept="image/png, image/jpeg, image/jpg" className='hidden' disabled={disabled}/>
+      <input ref={fileRef} onChange={onChange} name={name} type="file" accept="image/png, image/jpeg, image/jpg" className='hidden' disabled={disabled}/>
     </button>
   )
 }
