@@ -3,6 +3,7 @@ import Layout from '../components/layout'
 import '../styles/globals.css'
 import Login from "./login"
 import {useRouter} from "next/router"
+import { CtxProvider } from '../context/context'
 
 function MyApp({ Component, pageProps }) {
   const router=useRouter()
@@ -10,7 +11,7 @@ function MyApp({ Component, pageProps }) {
   useEffect(()=>{
     setAuth(localStorage.getItem("access_token")?true:false)
   },[router])
-  return <>{auth===true? <Layout><Component {...pageProps} /></Layout>:auth===false&&<Login/>}</>
+  return <CtxProvider> {auth===true? <Layout><Component {...pageProps} /></Layout>:auth===false&&<Login/>} </CtxProvider>
 }
 
 export default MyApp

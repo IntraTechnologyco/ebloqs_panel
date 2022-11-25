@@ -4,29 +4,23 @@ import Input from '../../components/Input'
 import Select from '../../components/Select'
 import UploadImage from '../../components/UploadImage'
 import ButtonBlueGradient from "../../components/Buttons/ButtonBlueGradient"
-import { createContrat, createNewRealState } from '../../ApiFuntions/realState'
+import { createContrat, createNewRealState, verifyFeaturedAvailable } from '../../ApiFuntions/realState'
 import metadata from "../../data/MetadataURIJSONSchema.json"
 import Loader from '../../components/Loader'
 import ButonAddAnother from '../../components/Buttons/ButonAddAnother'
 import BtnToggleSwitch from '../../components/Buttons/BtnToggleSwitch'
 import countriesData from "../../data/countries.json"
 import SelectWithoutType from '../../components/Buttons/SelectWithoutType'
+import { useCtx } from '../../context/context'
+import InformativeFeedback from '../../components/FeedbackModals/InformativeFeedback'
 
 export default function RealState() {
-    const [ realStateData, setRealStateData ] = useState({})
-    const [ destacado, setDestacado ] = useState(false)
-    const [ nftAddress, setNftAddress ] = useState("")
-    const [ malls, setMalls ] = useState({zone_malls:[]})
-    const [ parks, setParks ] = useState({zone_parks:[]})
-    const [ metrovia, setMetrovia ] = useState({zone_subway:[]})
-    const [ supermarkets, setSupermarkets ] = useState({zone_markets:[]})
-    const [ contratCreated, setContratCreated ] = useState(false)
+    // states
+    const [ featuredAvailable, setFeaturedAvailable ] = useState(false)
     const [ loading, setLoading ] = useState(false)
-    const testCountries=[
-        {type:"Ecuador",name:"Ecuador"},
-        {type:"Colombia",name:"Colombia"},
-        {type:"Estados Unidos",name:"Estados Unidos"},
-    ]
+    //context data
+    const { realStateData, setRealStateData, nftAddress, setNftAddress, malls, setMalls, parks, setParks, metrovia, setMetrovia, supermarkets, setSupermarkets, contratCreated, setContratCreated, featured, setFeatured, feedbackInformativeData, setFeedbackInformativeData } = useCtx()
+
     const testCities=[
         {type:"Lima",name:"Lima"},
         {type:"Bogota",name:"Bogota"},
@@ -87,7 +81,8 @@ export default function RealState() {
     }
     //handle create smart contrat
     const handlCreateContrat = (e) => {
-         setLoading(true)
+        if ( realStateData.name && realStateData.country && realStateData.city && realStateData.type && realStateData.building_price && realStateData.token_price && realStateData.address && realStateData.pic2 && realStateData.pic2 && realStateData.pic3 && realStateData.pic4 && realStateData.pic5 && realStateData.annual_rental && realStateData.annual_expenditure  && realStateData.construction_interest && realStateData.net_leasing && realStateData.plusvalia && realStateData.builder_data  ){
+        setLoading(true)
         e.preventDefault()
         const emitedSupply = ((realStateData.building_price/realStateData.token_price) * (10**18)).toLocaleString('fullwide', { useGrouping: false })
         console.log(emitedSupply)
@@ -98,24 +93,47 @@ export default function RealState() {
         contratData.append("Supply", emitedSupply)
         contratData.append("Image", realStateData.pic1)
         contratData.append("Metadata", meta)
+        
         createContrat(contratData).then((res)=>{
             console.log(res)
             //localStorage.setItem("rSD",JSON.stringify(realStateData))
             setNftAddress(res.data.data.NFT.nftAddress)
             setContratCreated(true)
             setLoading(false)
+            setFeedbackInformativeData({ open:true, text:"Contrato creado exitosamente", success: true })
         }).catch((err)=>{
             console.log(err)
             setLoading(false)
+            setFeedbackInformativeData({ open:true, text:"Error al crear el contrato por favor intentelo nuevamente", success: false })
         })  
+        }
+        else{
+            setFeedbackInformativeData({ open:true, text:"Todos los campos con * son requeridos por favor diligencialos", success: false })
+        }
+         
     }
 
+    const cleanData = ()=>{
+        setLoading(false)
+        setRealStateData({name:""})
+        setMalls({zone_malls:[]})
+        setMetrovia({zone_subway:[]})
+        setParks({zone_parks:[]})
+        setSupermarkets({zone_markets:[]})
+        setContratCreated(false)
+        setFeatured(false)
+        setFeedbackInformativeData({ open:true, text:"Proyecto creado exitosamente", success: true })
+        console.log("project created")
+    }
     //handle public a project
     const handlePublicRealState=()=>{
         setLoading(true)
         const emitedSupply = ((realStateData.building_price/realStateData.token_price) * (10**18)).toLocaleString('fullwide', { useGrouping: false })
         const realFormData= new FormData
         realFormData.append("name", realStateData.name)
+        realFormData.append("featured", featured)
+        realFormData.append("city", realStateData.city)
+        realFormData.append("net", realStateData.net)
         realFormData.append("country", realStateData.country)
         realFormData.append("type", realStateData.type)
         realFormData.append("token_price", realStateData.token_price)
@@ -146,35 +164,27 @@ export default function RealState() {
         realFormData.append("zone_markets", supermarkets.zone_markets)
         realFormData.append("zone_parks", parks.zone_parks)
         realFormData.append("zone_subway", metrovia.zone_subway)
-        // creare project
+        // create project
         createNewRealState(realFormData)
         .then((res)=>{
             console.log(res)
-            setLoading(false)
-            //localStorage.removeItem("rSD")
-            setRealStateData({})
-            setMalls({zone_malls:[]})
-            setMetrovia({zone_subway:[]})
-            setParks({zone_parks:[]})
-            setSupermarkets({zone_markets:[]})
-            setContratCreated(false)
+            cleanData()
         })
         .catch((err)=>{
             console.log(err)
             setLoading(false)
+            setFeedbackInformativeData({ open:true, text:"Error al crear el proyecto por favor intentelo nuevamente", success: false })
         })
     }
-    const handleProjectDestacado = () =>{
-        setDestacado(!destacado)
-    }
     useEffect(()=>{
-       /*  const realData=JSON.parse(localStorage.getItem("rSD"))
-        setRealStateData(realData ?? {})
-        setContratCreated(realData ? true : false) */
+        verifyFeaturedAvailable()
+        .then((res)=>{
+            res.data.lot <6 && setFeaturedAvailable(true)
+        })
     },[])
 
   return (
-    <div >
+    <div>
         {
             loading&&<div className="mx-auto flex fixed left-0 right-0 justify-center items-center h-full top-0 bottom-0
              z-50 bg-black/20"><Loader size={60}/></div>
@@ -186,7 +196,7 @@ export default function RealState() {
            </div>
             {/** toggle button destacado */}
            <div>
-           <BtnToggleSwitch disabled={true} text="Destacado"/>
+                <BtnToggleSwitch disabled={!featuredAvailable} text="Destacado" name="featured" onChange={(e)=> setFeatured(e.target.checked) } value={featured} />
            </div>
             
         </div>
@@ -194,21 +204,21 @@ export default function RealState() {
         <div className='mt-7'>
             <h2 className='text-xl text-purple-dark font-bold mb-5'>Incluye algunos detalles</h2>
             <div className='grid grid-cols-3 gap-5'>
-                <SelectWithoutType label="Pais" name="country" value={realStateData.country} data={countriesData} onChange={(e)=>handleOnChangeInputs(e)}/>
-                <Select label="Ciudad" name="city" data={testCities} onChange={(e)=>handleOnChangeInputs(e)}/>
-                <Select label="Tipo" name="type" data={types} onChange={(e)=>handleOnChangeInputs(e)}/>
+                <SelectWithoutType label="Pais" name="country" value={realStateData.country??""} data={countriesData} onChange={(e)=>handleOnChangeInputs(e)}/>
+                <Select label="Ciudad" name="city" data={testCities} value={realStateData.city??""} onChange={(e)=>handleOnChangeInputs(e)}/>
+                <Select label="Tipo" name="type" value={realStateData.type??""} data={types} onChange={(e)=>handleOnChangeInputs(e)}/>
             </div>
         </div>
         {/** Datos del proyecto */}
         <div className='mt-7'>
             <h2 className='text-xl text-purple-dark font-bold mb-5'>Datos del producto</h2>
             <div className='grid grid-cols-3 gap-5'>
-                <Input label="Nombre" name="name" value={realStateData.name} onChange={(e)=>handleOnChangeInputs(e)} disabled={contratCreated} required/>
-                <Input type="number" label="Precio edificio" value={realStateData.building_price} name="building_price" onChange={(e)=>handleOnChangeInputs(e)} disabled={contratCreated}/>
-                <Input type="number" label="Precio Token" name="token_price" value={realStateData.token_price} onChange={(e)=>handleOnChangeInputs(e)} disabled={contratCreated} />
+                <Input label="Nombre" name="name" value={realStateData.name??""} onChange={(e)=>handleOnChangeInputs(e)} disabled={contratCreated} required/>
+                <Input type="number" label="Precio edificio" value={realStateData.building_price??""} name="building_price" onChange={(e)=>handleOnChangeInputs(e)} disabled={contratCreated}/>
+                <Input type="number" label="Precio Token" name="token_price" value={realStateData.token_price??""} onChange={(e)=>handleOnChangeInputs(e)} disabled={contratCreated} />
                 <Input type="number" label="Tokens emitidos" value={(realStateData.building_price/realStateData.token_price)} name="tokens_emitted" onChange={(e)=>handleOnChangeInputs(e)} disabled={true}/>
                 <Input type="number" label="Tokens disponibles" name="tokens_available" value={(realStateData.building_price/realStateData.token_price)} onChange={(e)=>handleOnChangeInputs(e)} disabled={true}/>
-                <Input label="Dirección" name="address" value={realStateData.address} onChange={(e)=>handleOnChangeInputs(e)}/>
+                <Input label="Dirección" name="address" value={realStateData.address??""} onChange={(e)=>handleOnChangeInputs(e)}/>
             </div>
         </div>
         {/** Algunos detalles */}
@@ -216,11 +226,11 @@ export default function RealState() {
             <h2 className='text-xl text-purple-dark font-bold'>Fotos del producto</h2>
             <p>Sube 5 fotos. Aquellas saldrán en tu anuncio de Ebloqs</p>
             <div className='grid grid-cols-5 gap-5 mt-5'>
-                <UploadImage name="pic1" onChange={(e)=>handleOnChangeImages(e)} disabled={contratCreated}/>
-                <UploadImage name="pic2" onChange={(e)=>handleOnChangeImages(e)} />
-                <UploadImage name="pic3" onChange={(e)=>handleOnChangeImages(e)} />
-                <UploadImage name="pic4" onChange={(e)=>handleOnChangeImages(e)} />
-                <UploadImage name="pic5" onChange={(e)=>handleOnChangeImages(e)} />
+                <UploadImage name="pic1" value={realStateData.pic1} onChange={(e)=>handleOnChangeImages(e)} disabled={contratCreated}/>
+                <UploadImage name="pic2" value={realStateData.pic2} onChange={(e)=>handleOnChangeImages(e)} />
+                <UploadImage name="pic3" value={realStateData.pic3} onChange={(e)=>handleOnChangeImages(e)} />
+                <UploadImage name="pic4" value={realStateData.pic4} onChange={(e)=>handleOnChangeImages(e)} />
+                <UploadImage name="pic5" value={realStateData.pic5} onChange={(e)=>handleOnChangeImages(e)} />
             </div>
         </div>
         {/** Datos del proyecto */}
@@ -232,49 +242,50 @@ export default function RealState() {
                     <Image src="/images/apartment.png" width={28} height={29}/>
                     <p className='ml-2'>Tipo de proyecto</p>
                 </div>
-                    <Input label="Edificio superficie (m2)" name="surface_building" value={realStateData.surface_building} onChange={(e)=>handleOnChangeInputs(e)}/>
-                    <Input label="No. departamentos" name="number_departaments" value={realStateData.number_departaments} onChange={(e)=>handleOnChangeInputs(e)}/>
-                    <Input label="Número amenidades" name="number_amenities" value={realStateData.number_amenities} onChange={(e)=>handleOnChangeInputs(e)}/>
+                    <Input label="Edificio superficie (m2)" name="surface_building" value={realStateData.surface_building??""} onChange={(e)=>handleOnChangeInputs(e)}/>
+                    <Input label="No. departamentos" name="number_departaments" value={realStateData.number_departaments??""} onChange={(e)=>handleOnChangeInputs(e)}/>
+                    <Input label="Número amenidades" name="number_amenities" value={realStateData.number_amenities??""} onChange={(e)=>handleOnChangeInputs(e)}/>
                </div>
                <div className='grid grid-cols-1 gap-3'>
                <div className='bg-purple-semi-light rounded-md px-5 py-1 flex items-center'>
                     <Image src="/images/validation.png" width={28} height={29}/>
                     <p className='ml-2'>Validación</p>
                 </div>
-                    <Input label="Fideicomiso" name="escrow" value={realStateData.escrow} onChange={(e)=>handleOnChangeInputs(e)}/>
-                    <Input label="Planos aprobados" name="approved_plans" value={realStateData.approved_plans} onChange={(e)=>handleOnChangeInputs(e)}/>
-                    <Input label="Lic. de construcción" name="construction_license" value={realStateData.construction_license} onChange={(e)=>handleOnChangeInputs(e)}/>
+                    <Input label="Fideicomiso" name="escrow" value={realStateData.escrow??""} onChange={(e)=>handleOnChangeInputs(e)}/>
+                    <Input label="Planos aprobados" name="approved_plans" value={realStateData.approved_plans??""} onChange={(e)=>handleOnChangeInputs(e)}/>
+                    <Input label="Lic. de construcción" name="construction_license" value={realStateData.construction_license??""} onChange={(e)=>handleOnChangeInputs(e)}/>
                </div>
             </div>
         </div>
         {/** Tokenomics del proyecto */}
         <div className='mt-7'>
             <h2 className='text-xl text-purple-dark font-bold mb-5'>Tokenomics del proyecto</h2>
-            <div className='grid grid-cols-2 gap-5'>
+            <div className='grid grid-cols-2 gap-5 items-start'>
                <div className='grid grid-cols-1 gap-3'>
                 <div className='bg-purple-semi-light rounded-md px-5 py-1 flex items-center'>
                     <Image src="/images/house.png" width={28} height={29}/>
                     <p className='ml-2'>Alquiler</p>
                 </div>
-                    <Input label="Renting anual" name="annual_rental" onChange={(e)=>handleOnChangeInputs(e)}/>
-                    <Input label="Gasto anual" name="annual_expenditure" onChange={(e)=>handleOnChangeInputs(e)}/>
-                    <Input label="Beneficio neto anual" name="annual_net_profit" onChange={(e)=>handleOnChangeInputs(e)}/>
+                    <Input label="Renting anual" name="annual_rental" value={realStateData.annual_rental??""} onChange={(e)=>handleOnChangeInputs(e)}/>
+                    <Input label="Gasto anual" name="annual_expenditure" value={realStateData.annual_expenditure??""} onChange={(e)=>handleOnChangeInputs(e)}/>
+                    <Input label="Beneficio neto anual" name="annual_net_profit" value={realStateData.annual_rental && realStateData.annual_expenditure ?realStateData.annual_rental - realStateData.annual_expenditure: ""} onChange={(e)=>handleOnChangeInputs(e)} disabled/>
                </div>
                <div className='grid grid-cols-1 gap-3'>
                <div className='bg-purple-semi-light rounded-md px-5 py-1 flex items-center'>
                     <Image src="/images/money.png" width={28} height={29}/>
                     <p className='ml-2'>Rentabilidad</p>
                 </div>
-                    <Input label="Interés construccion (1 año)" name="construction_interest" onChange={(e)=>handleOnChangeInputs(e)}/>
-                    <Input label="Renting neto (2 años)" name="net_leasing" onChange={(e)=>handleOnChangeInputs(e)}/>
-                    <Input label="Plusvalía (3 años)" name="plusvalia" onChange={(e)=>handleOnChangeInputs(e)}/>
+                    <Input label="Interés construccion (1 año)" name="construction_interest" value={realStateData.construction_interest??""} onChange={(e)=>handleOnChangeInputs(e)}/>
+                    <Input label="Renting neto (2 años)" name="net_leasing" value={realStateData.net_leasing??""} onChange={(e)=>handleOnChangeInputs(e)}/>
+                    <Input label="Plusvalía (3 años)" name="plusvalia" value={realStateData.plusvalia??""} onChange={(e)=>handleOnChangeInputs(e)}/>
+                    <Input label="Neto (3 años)" name="net" value={ realStateData.construction_interest && realStateData.net_leasing && realStateData.plusvalia ? Number(realStateData.construction_interest) + Number(realStateData.net_leasing) + Number(realStateData.plusvalia) : ""} onChange={(e)=>handleOnChangeInputs(e)} disabled={true}/>
                </div>
             </div>
         </div>
         {/**Description de la azona */}
         <div className='mt-7'>
             <h2 className='text-xl text-purple-dark font-bold mb-5'>Descripción de la zona</h2>
-            <div className='grid grid-cols-2 gap-5'>
+            <div className='grid grid-cols-2 gap-5 items-start'>
                 {/** 1 */}
                <div className='grid grid-cols-1 gap-3'>
                 <div className='bg-purple-semi-light rounded-md px-5 py-1 flex items-center'>
@@ -283,13 +294,12 @@ export default function RealState() {
                 </div>
                 {
                     malls?.zone_malls?.map((item, idx)=>{
-                        return <input key={idx} onChange={(e)=>handlAddMallOnChange(e,idx)} className="border px-3 rounded h-12 focus-within:outline-none"/>
+                        return <input key={idx} value={item} onChange={(e)=>handlAddMallOnChange(e,idx)} className="border px-3 rounded h-12 focus-within:outline-none"/>
                     })
                 }
                     <ButonAddAnother onClick={()=>handleAddAnotherMall()} />
                </div>
                 {/** 2 */}
-
                <div className='grid grid-cols-1 gap-3'>
                <div className='bg-purple-semi-light rounded-md px-5 py-1 flex items-center'>
                     <Image src="/images/shop.png" width={28} height={29}/>
@@ -297,7 +307,7 @@ export default function RealState() {
                 </div>
                 {
                     supermarkets.zone_markets.map((item, idx)=>{
-                        return <input key={idx} onChange={(e)=>handlAddMarketOnChange(e,idx)} className="border px-3 rounded h-12 focus-within:outline-none"/>
+                        return <input key={idx} value={item} onChange={(e)=>handlAddMarketOnChange(e,idx)} className="border px-3 rounded h-12 focus-within:outline-none"/>
                     })
                 }
                     <ButonAddAnother onClick={()=>handleAddAnotherZone()} />
@@ -309,7 +319,7 @@ export default function RealState() {
                 </div>
                 {
                     parks.zone_parks.map((item, idx)=>{
-                        return <input onChange={(e)=>handlAddParkOnChange(e,idx)} key={idx} className="border px-3 rounded h-12 focus-within:outline-none"/>
+                        return <input onChange={(e)=>handlAddParkOnChange(e,idx)} value={item} key={idx} className="border px-3 rounded h-12 focus-within:outline-none"/>
                     })
                 }
                     <ButonAddAnother onClick={()=>handleAddAnotherPark()} />
@@ -321,7 +331,7 @@ export default function RealState() {
                 </div>
                 {
                     metrovia.zone_subway.map((item, idx)=>{
-                        return <input key={idx} onChange={(e)=>handlAddSubwayOnChange(e,idx)} className="border px-3 rounded h-12 focus-within:outline-none"/>
+                        return <input key={idx} value={item} onChange={(e)=>handlAddSubwayOnChange(e,idx)} className="border px-3 rounded h-12 focus-within:outline-none"/>
                     })
                 }
                     <ButonAddAnother onClick={()=>handleAddAnotherMetrovia()} />
@@ -332,18 +342,18 @@ export default function RealState() {
         <div className='mt-7'>
             <h2 className='text-xl text-purple-dark font-bold mb-5'>Datos del constructor</h2>
             <p>Escribe algunos datos sobre el constructor</p>
-            <textarea className='w-full border rounded p-5 focus-visible:outline-none' value={realStateData.builder_data} name='builder_data' onChange={(e)=>handleOnChangeInputs(e)}/>
+            <textarea className='w-full border rounded p-5 focus-visible:outline-none h-32' value={realStateData.builder_data??""} maxLength={450} name='builder_data' onChange={(e)=>handleOnChangeInputs(e)}/>
         </div>
         <div className='w-64 mx-auto my-5'>{
             !contratCreated?
              <ButtonBlueGradient text="Crear contrato" onClick={(e)=>handlCreateContrat(e)} />
              :
              <ButtonBlueGradient text="Publicar" onClick={(e)=>handlePublicRealState(e)} />
-
         }
-       
         </div>
-        
+        {
+            feedbackInformativeData.open && <InformativeFeedback/>
+        }
     </div>
   )
 }
