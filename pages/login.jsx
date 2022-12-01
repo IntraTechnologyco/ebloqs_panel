@@ -30,6 +30,7 @@ export default function Login() {
     setLoading(true)
     loginAdmin(loginData).then((res)=>{
       localStorage.setItem("access_token",res.data.access_token)
+      localStorage.setItem("userInfo",JSON.stringify(res.data))
       router.push("/")
     })
     .catch((err)=>{
@@ -38,8 +39,9 @@ export default function Login() {
     })
   };
   useEffect(()=>{
-    //delete access_token from local storage
+    //delete access_token from local storage when user is on login page
     localStorage.removeItem("access_token")
+    localStorage.removeItem("userInfo")
   },[])
   return (
     <div className="flex fixed w-screen h-screen top-0 left-0 right-0">

@@ -1,8 +1,13 @@
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { withRouter } from 'next/router'
 
 const TopBar=({router})=> {
+  const [userInfo, setUserInfo] = useState({})
+  useEffect(()=>{
+    const dataUser =JSON.parse(localStorage.getItem("userInfo"))
+    setUserInfo(dataUser)
+  },[])
   return (
     <div className={`${router.asPath.includes("/login")&&"hidden"} bg-[#F9F9FA] h-12 border-b flex items-center justify-between px-5 sticky top-0 w-full z-40`}>
             <button className='px-3 h-full'>
@@ -14,7 +19,7 @@ const TopBar=({router})=> {
                 <div className='w-10 h-10 rounded-full'>
                 <Image src="/images/logoadmin.png" width={50} height={50}/>
                 </div>
-                <span className='ml-2 font-medium'>Hola, Usuario</span>
+                <span className='ml-2 font-medium capitalize'>Hola, {userInfo?.name} {userInfo?.lastname}</span>
             </div>
             </div>
       </div>
