@@ -5,7 +5,7 @@ import { convertToCurrency } from '../globalFunction/convertToCurrency'
 import ConfirmModal from './modals/ConfirmModal'
 import SelectOfStatesWithColors from './SelectOfStatesWithColors'
 
-export default function RecentPaymentsTable({data,setStateChanged,stateChanged,selectStateOn}) {
+export default function RecentPaymentsTable({data, setStateChanged, stateChanged, selectStateOn, editDisabled}) {
     const [stateSelect,setStateSelect]=useState(null)
     const [icoCost,setIcoCost]=useState(0)
     const [confirmModalData,setConfirmModalData]=useState({state:false, text:"", loading:false})
@@ -64,7 +64,7 @@ export default function RecentPaymentsTable({data,setStateChanged,stateChanged,s
                         <td>  
                           {
                             selectStateOn?
-                            <SelectOfStatesWithColors userId={transaction.id} state={transaction.status} onChange={(e)=>handleUpdateState(e,transaction.id, parseInt(transaction.amount), transaction.customer)} />
+                            <SelectOfStatesWithColors userId={transaction.id} state={transaction.status} onChange={(e)=>handleUpdateState(e,transaction.id, parseInt(transaction.amount), transaction.customer)} disabled={editDisabled || transaction.status == 1}/>
                             :
                             <p className={`w-full capitalize focus-within:outline-none ${transaction.status==0?"bg-yellow-200 text-yellow-700":transaction.status==2?"bg-blue-200 text-blue-700":transaction.status==1&&"bg-green-200 text-green-700" } font-medium rounded p-1`}>{transaction.status=="0"?"Pending":transaction.status=="1"?"Paid out":transaction.status==2&&"Not payed"}</p>
                           }

@@ -24,7 +24,7 @@ const MenuPanel =({router})=> {
            { rol==0 && <li className='my-3'><LinkButtonBlueWhite href="/admin" text="Admin" icon={AutIcon}/></li>}
         </ul>
         <hr  className='my-10'/>
-        <LinkButtonBlueWhite href="/login" text="Salir" icon={LogoutIcon}/>
+        <LinkButtonBlueWhite href="/login" text="Exit" icon={LogoutIcon}/>
         
     </div>
   )

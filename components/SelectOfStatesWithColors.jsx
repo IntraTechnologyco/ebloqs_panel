@@ -1,7 +1,7 @@
 import React from 'react'
 import { updateTransactionStatus } from '../ApiFuntions/transactions'
 
-export default function SelectOfStatesWithColors({state,onChange}) {
+export default function SelectOfStatesWithColors({state,onChange, disabled}) {
     
     const recentPaymentsDataTest=[
         {
@@ -20,7 +20,7 @@ export default function SelectOfStatesWithColors({state,onChange}) {
       ]
 
   return (
-    <select onChange={(e)=>onChange(e)} value={state} className={`w-full capitalize focus-within:outline-none ${state==0?"bg-yellow-200 text-yellow-700":state==2?"bg-blue-200 text-blue-700":state==1&&"bg-green-200 text-green-700" } font-medium rounded p-1`} >
+    <select disabled={disabled} onChange={(e)=>onChange(e)} value={state} className={`w-full capitalize focus-within:outline-none ${state==0?"bg-yellow-200 text-yellow-700":state==2?"bg-blue-200 text-blue-700":state==1&&"bg-green-200 text-green-700" } font-medium rounded p-1`} >
         {
             recentPaymentsDataTest.map((item,idx)=>{
                 return(

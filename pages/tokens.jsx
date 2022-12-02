@@ -14,6 +14,7 @@ export default function Tokens() {
   const [icoCost,setIcoCost]=useState("")
   const [loading,setLoading]=useState(true)
   const [refetch,setRefetch]=useState(true)
+  const [ userRol, setUserRol ] = useState(null)
   //ico costs options
   const ico_costs=[
     {type:"0.07",name:"$0.07"},
@@ -95,6 +96,9 @@ export default function Tokens() {
   const endPresale=()=>{
     handleUpdateTokendata(false)
   }
+  useEffect(()=>{
+    setUserRol(Number(JSON.parse(localStorage.getItem("userInfo")).rol))
+  },[])
   return (
     <div className='max-w-[800px] mx-auto'>
       {
@@ -119,7 +123,7 @@ export default function Tokens() {
           <Input onChange={(e)=>handleInputsOnChange(e)} type="string" disabled={true} label="Presale" name="presale" value={convertToCurrency(preventaData.presale,"USD")}  />
           </div>
        <div>
-        <Select label="Ico Cost" data={ico_costs} name="ico_cost" onChange={(e)=>handleInputsOnChange(e)} value={preventaData.ico_cost}/>
+        <Select label="Ico Cost" data={ico_costs} disabled={ userRol === 1 } name="ico_cost" onChange={(e)=>handleInputsOnChange(e)} value={preventaData.ico_cost}/>
        {/* <Input onChange={(e)=>handleInputsOnChange(e)} type="number" label="Ico cost" name="ico_cost" value={preventaData.ico_cost}  /> */}
        <br />
         <ButtonBlueGradient text="Update" onClick={()=>updateIcoCost()} disabled={icoCost==preventaData.ico_cost?true:false} />
@@ -127,10 +131,11 @@ export default function Tokens() {
         </div>
         <div className=' mt-8'>
           {
+            userRol !==1 && (
             preventaData.presale_status?
             <ButtonBlueGradient text="End" onClick={()=>endPresale()}/>
             :
-            <ButtonBlueGradient text="Start" onClick={()=>startPresale()}/>
+            <ButtonBlueGradient text="Start" onClick={()=>startPresale()}/>)
           }
         
         </div>

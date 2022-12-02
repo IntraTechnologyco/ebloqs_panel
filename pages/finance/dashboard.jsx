@@ -10,6 +10,7 @@ import RecentPaymentsTable from '../../components/RecentPaymentsTable'
 import {convertToCurrency} from "../../globalFunction/convertToCurrency"
 
 export default function Dashboard() {
+  const [ userRol, setUserRol ] = useState(null)
   const [supply,setSupply]=useState("")
   const [available,setAvailable]=useState("")
   const [dollarBalance,setDollarBalance]=useState("0")
@@ -44,6 +45,9 @@ export default function Dashboard() {
       setLoading(false)
     })
   },[stateChanged])
+  useEffect(()=>{
+    setUserRol(Number(JSON.parse(localStorage.getItem("userInfo")).rol))
+  },[])
   return loading? <div className="mx-auto flex justify-center items-center h-96"><Loader size={60}/></div>: (
     <div>
       <h2 className="text-2xl font-bold text-purple-dark">Dashboard</h2>
@@ -101,7 +105,7 @@ export default function Dashboard() {
         <div className='mr-3 h-full'>
         <CardDashboardWithSeeAllAndTitle text="Recent bank payment">
             <Image src="/images/paymentsChart.png" width={496} height={43}/>
-            <RecentPaymentsTable data={allTransactions.transactionsBank} setStateChanged={setStateChanged} stateChanged={stateChanged} selectStateOn={true} />
+            <RecentPaymentsTable data={allTransactions.transactionsBank} setStateChanged={setStateChanged} stateChanged={stateChanged} selectStateOn={true} editDisabled={  userRol === 1 }/>
         </CardDashboardWithSeeAllAndTitle>
         </div>
         {/** recent credit/debit payment */}
