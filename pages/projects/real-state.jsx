@@ -194,7 +194,6 @@ export default function RealState() {
       text: "Proyecto creado exitosamente",
       success: true,
     });
-    console.log("project created");
   };
   //handle public a project
   const handlePublicRealState = () => {
@@ -254,10 +253,10 @@ export default function RealState() {
     realFormData.append("net_leasing", realStateData.net_leasing);
     realFormData.append("plusvalia", realStateData.plusvalia);
     realFormData.append("address_id", nftAddress);
-    realFormData.append("zone_malls", malls.zone_malls);
-    realFormData.append("zone_markets", supermarkets.zone_markets);
-    realFormData.append("zone_parks", parks.zone_parks);
-    realFormData.append("zone_subway", metrovia.zone_subway);
+    realFormData.append("zone_malls", JSON.stringify(malls.zone_malls));
+    realFormData.append("zone_markets", JSON.stringify(supermarkets.zone_markets));
+    realFormData.append("zone_parks", JSON.stringify(parks.zone_parks));
+    realFormData.append("zone_subway",JSON.stringify(metrovia.zone_subway));
     // create project
     createNewRealState(realFormData)
       .then((res) => {
@@ -407,12 +406,13 @@ export default function RealState() {
           Fotos del producto
         </h2>
         <p>Sube 5 fotos. Aquellas saldrán en tu anuncio de Ebloqs</p>
-        <p className="text-sm">Imagen principal del proyecto 636x324</p>
-        <p className="text-sm">Imagen del proyecto 752x890</p>
+        <p className="text-sm">Imagen principal del proyecto 342 x 256</p>
+        <p className="text-sm">Imagen destacada del proyecto 636 x 324</p>
+        <p className="text-sm">Imagen del proyecto 752 x 890</p>
         <div className="grid grid-cols-10 gap-5 mt-5">
           <div className="col-span-5 w-full">
             <UploadImage
-              leyenda="Imagen principal 636x324px"
+              leyenda="Imagen principal 342 x 256"
               name="primary_img"
               value={realStateData.primary_img}
               onChange={(e) => handleOnChangeImages(e)}

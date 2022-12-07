@@ -27,10 +27,10 @@ export default function PaymentsTable({data, pagination}) {;
                 <tr key={idx} className="text-center border-b h-12">
                   <td className="text-blue-semi-dark flex items-center justify-center my-auto h-12">
                       <Image src="/images/docicon.png" width={22} height={22} />
-                      Descargar
+                      Download
                   </td>
                   <td>
-                    <Image src="/images/cardlogo.png" width={25} height={16} />
+                  { item.type === "card" && <Image src="/images/cardlogo.png" width={25} height={16} /> }
                     <span className="ml-2">{convertMethodPaymentPrivate(item.payment_number)}</span>
                   </td>
                   <td>{item.create.substring(0,10)}</td>
