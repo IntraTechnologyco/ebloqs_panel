@@ -137,7 +137,7 @@ export default function RealState() {
       setLoading(true);
       e.preventDefault();
       const emitedSupply = (
-        (realStateData.building_price / realStateData.token_price) *
+        parseInt(realStateData.building_price / realStateData.token_price) *
         10 ** 18
       ).toLocaleString("fullwide", { useGrouping: false });
       console.log(emitedSupply);
@@ -199,7 +199,7 @@ export default function RealState() {
   const handlePublicRealState = () => {
     setLoading(true);
     const emitedSupply = (
-      (realStateData.building_price / realStateData.token_price) *
+      parseInt(realStateData.building_price / realStateData.token_price) *
       10 ** 18
     ).toLocaleString("fullwide", { useGrouping: false });
     const realFormData = new FormData();
@@ -378,7 +378,7 @@ export default function RealState() {
           <Input
             type="number"
             label="Tokens emitidos"
-            value={realStateData.building_price / realStateData.token_price}
+            value={parseInt(realStateData.building_price / realStateData.token_price)}
             name="tokens_emitted"
             onChange={(e) => handleOnChangeInputs(e)}
             disabled={true}
@@ -387,7 +387,7 @@ export default function RealState() {
             type="number"
             label="Tokens disponibles"
             name="tokens_available"
-            value={realStateData.building_price / realStateData.token_price}
+            value={parseInt(realStateData.building_price / realStateData.token_price)}
             onChange={(e) => handleOnChangeInputs(e)}
             disabled={true}
           />
