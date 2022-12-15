@@ -7,6 +7,8 @@ import Input from "../components/Input";
 import {loginAdmin} from "../ApiFuntions/login"
 import LoaderFullScreen from "../components/LoaderFullScreen";
 import { useRouter } from "next/router";
+import { useCtx } from "../context/context";
+import InformativeFeedback from "../components/FeedbackModals/InformativeFeedback";
 
 export default function Login() {
   //states
@@ -17,6 +19,8 @@ export default function Login() {
   const [loading, setLoading] = useState(false); //handle login loader
   // router
   const router = useRouter()
+  //contexts
+  const { setFeedbackInformativeData, feedbackInformativeData } = useCtx()
   // HANDLE INPUTS ON CHANGE
   const handleInputsChange = ({ target }) => {
     setLoginData({
@@ -34,7 +38,7 @@ export default function Login() {
       router.push("/")
     })
     .catch((err)=>{
-      console.log(err)
+      err?.response?.data?.error.toLowerCase() === "unauthorized" && setFeedbackInformativeData({ open:true, text:err?.response?.data?.message, success: false })
       setLoading(false)
     })
   };
@@ -97,7 +101,11 @@ export default function Login() {
       <div className="bg-[url(/images/loginbg.png)] bg-contain bg-no-repeat bg-right h-screen w-[50%]" />
      {
       loading&&
-      <LoaderFullScreen loaderSize={70}/>}
+      <LoaderFullScreen loaderSize={70}/>
+      }
+      {
+      feedbackInformativeData.open && <InformativeFeedback />
+      }
     </div>
   );
 }

@@ -16,7 +16,6 @@ import BtnToggleSwitch from "../../components/Buttons/BtnToggleSwitch";
 import countriesData from "../../data/countries.json";
 import SelectWithoutType from "../../components/Buttons/SelectWithoutType";
 import { useCtx } from "../../context/context";
-import InformativeFeedback from "../../components/FeedbackModals/InformativeFeedback";
 
 export default function RealState() {
   // states
@@ -41,7 +40,6 @@ export default function RealState() {
     setContratCreated,
     featured,
     setFeatured,
-    feedbackInformativeData,
     setFeedbackInformativeData,
   } = useCtx();
 
@@ -742,7 +740,6 @@ export default function RealState() {
             />
           ))}
       </div>
-      {feedbackInformativeData.open && <InformativeFeedback />}
     </div>
   );
 }
